@@ -1,0 +1,86 @@
+/* css/index.css (COMPLETO E ATUALIZADO) */
+
+/* Botão de novo projeto */
+#new-project-button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 700;
+    color: #6b4a2f;
+    background-color: #fefbf4; /* brand-beige-light */
+    border: 2px dashed #8c6d4f; /* brand-brown-medium */
+    border-radius: 1rem; /* rounded-2xl */
+    margin-bottom: 1.5rem; /* mb-6 */
+    display: flex; /* Para alinhar ícone e texto */
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; /* space-x-2 */
+    transition: all 0.2s ease-in-out; /* Adiciona transição suave */
+    cursor: pointer;
+}
+
+#new-project-button:hover {
+    background-color: #f7f0df; /* brand-parchment-darker */
+    border-color: #6b4a2f; /* brand-brown-dark */
+    transform: translateY(-2px); /* Leve levantamento no hover */
+    box-shadow: 0 2px 4px rgba(107, 74, 47, 0.1); /* Sombra suave */
+}
+
+/* Lista de projetos */
+#project-list {
+    display: grid;
+    gap: 1rem; /* Espaço entre os cards */
+    margin-top: 1.5rem; /* mt-6 */
+}
+
+/* Card individual do projeto */
+.project-card {
+    width: 100%;
+    padding: 1rem;
+    background-color: #fefbf4; /* brand-beige-light */
+    border: 2px solid rgba(140, 109, 79, 0.5); /* border-brand-brown-medium/50 */
+    border-radius: 1rem; /* rounded-2xl */
+    box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.1); /* Sombra interna mais sutil */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out; /* Adiciona transição suave */
+    position: relative; /* Necessário para futuros pseudo-elementos */
+}
+
+.project-card:hover {
+    border-color: #6b4a2f; /* brand-brown-dark */
+    transform: translateY(-3px); /* Leve levantamento no hover */
+    box-shadow: 0 4px 8px rgba(107, 74, 47, 0.15); /* Sombra externa mais pronunciada */
+}
+
+.project-card h3 {
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 700;
+    color: #6b4a2f; /* brand-brown-dark */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 0.25rem; /* Espaço abaixo do título */
+}
+
+.project-card p {
+    font-size: 0.875rem; /* text-sm */
+    color: #8c6d4f; /* brand-brown-medium */
+}
+
+/* Mensagem de "Nenhum projeto" */
+#project-list-empty {
+    text-align: center;
+    color: rgba(140, 109, 79, 0.8); /* brand-brown-medium/80 */
+    margin-top: 2.5rem; /* mt-10 */
+    padding: 1rem;
+    font-style: italic;
+}
+/* Ícone opcional para empty state (adicione o SVG no HTML se usar) */
+#project-list-empty svg {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+    width: 3rem; /* w-12 */
+    height: 3rem; /* h-12 */
+    color: rgba(140, 109, 79, 0.5);
+}

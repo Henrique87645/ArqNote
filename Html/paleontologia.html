@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArqNote - Descobertas da Paleontologia</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-brown-dark': '#6b4a2f', 'brand-brown-medium': '#8c6d4f',
+                        'brand-beige-light': '#fefbf4', 'brand-parchment': '#fdf6e7',
+                        'brand-parchment-darker': '#f7f0df',
+                    },
+                    fontFamily: { 'serif': ['Merriweather', 'serif'] },
+                    boxShadow: { 'inner-dark': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.15)' }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="../css/style.css"> 
+    <link rel="stylesheet" href="../css/index.css">      
+    <link rel="stylesheet" href="../css/arqueologia.css"> </head>
+
+<body class="min-h-screen" data-page="paleontologia"> <div class="watercolor-blotch bg-brand-parchment-darker w-96 h-96 top-10 left-10"></div>
+    <div class="watercolor-blotch bg-brand-parchment-darker w-72 h-72 bottom-20 right-5"></div>
+
+    <div class="relative z-10 w-full min-h-screen flex flex-col">
+
+        <div id="header-placeholder">
+            </div>
+
+        <main class="flex-1 w-full max-w-5xl mx-auto content-container"> 
+            
+            <h1 class="page-title mb-10">Grandes Descobertas da Paleontologia</h1>
+
+            <div id="discovery-grid" class="discovery-grid"> 
+                
+                <div class="discovery-card" 
+                     data-title="Archaeopteryx"
+                     data-image="" 
+                     data-meta="Solnhofen, Alemanha; Jurássico Superior (c. 150 Ma)"
+                     data-description="Um dos fósseis mais famosos do mundo, o Archaeopteryx representa uma forma transicional crucial entre dinossauros terópodes não-avianos e as aves modernas. Possuía um mosaico de características: penas assimétricas e fúrcula (osso da sorte) como as aves, mas também dentes afiados, garras nas 'mãos' (asas) e uma longa cauda óssea como seus ancestrais dinossauros.">
+                    <div class="card-image-placeholder"> 
+                        <img src="/Images/Archaeopteryx.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Archaeopteryx</h3>
+                        <p class="card-description">O 'elo perdido' emplumado entre dinossauros e aves.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Tyrannosaurus Rex"
+                     data-image=""
+                     data-meta="Oeste da América do Norte; Cretáceo Superior (c. 68-66 Ma)"
+                     data-description="O 'Rei Lagarto Tirano' é talvez o dinossauro mais icônico. Este carnívoro bípede colossal podia atingir 12 metros de comprimento e possuía uma das mordidas mais potentes estimadas no reino animal. Apesar de seus braços diminutos, era o predador de topo de seu ecossistema, caçando hadrossauros e ceratopsídeos. Sua descoberta ajudou a popularizar a paleontologia.">
+                    <div class="card-image-placeholder">
+                         <img src="/Images/TyrannosaurusRex.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Tyrannosaurus Rex</h3>
+                        <p class="card-description">O icônico e temível predador de topo do final da Era dos Dinossauros.</p>
+                    </div>
+                </div>
+                
+                <div class="discovery-card" 
+                     data-title="Lucy (Australopithecus afarensis)"
+                     data-image=""
+                     data-meta="Hadar, Etiópia; Plioceno (c. 3.2 Ma); 1974 (descoberta)"
+                     data-description="Descoberta por Donald Johanson, Lucy é um esqueleto fóssil 40% completo de uma fêmea adulta de A. afarensis. Sua pélvis e ossos das pernas demonstraram conclusivamente que esta espécie já caminhava ereta (bipedalismo), embora ainda retivesse características simiescas como braços longos e um cérebro pequeno. Foi uma descoberta fundamental para traçar a linhagem humana.">
+                     <div class="card-image-placeholder">
+                         <img src="/Images/Lucy.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Lucy (A. afarensis)</h3>
+                        <p class="card-description">Fóssil ancestral que provou o bipedalismo antes de cérebros grandes.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Velociraptor mongoliensis"
+                     data-image=""
+                     data-meta="Deserto de Gobi, Mongólia; Cretáceo Superior (c. 75-71 Ma)"
+                     data-description="Famoso (e mal representado) por 'Jurassic Park', o Velociraptor real era do tamanho de um peru grande, coberto de penas e provavelmente caçava em bandos. Sua característica mais marcante é a garra retrátil em forma de foice no segundo dedo do pé, usada para perfurar ou prender presas. Um fóssil famoso mostra um Velociraptor em combate mortal com um Protoceratops.">
+                     <div class="card-image-placeholder">
+                         <img src="/Images/Velociraptor.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Velociraptor</h3>
+                        <p class="card-description">Predador ágil e emplumado do Cretáceo, famoso por sua garra terrível.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Triceratops"
+                     data-image=""
+                     data-meta="Oeste da América do Norte; Cretáceo Superior (c. 68-66 Ma)"
+                     data-description="Este robusto herbívoro é um dos dinossauros mais reconhecíveis, com seus três chifres faciais (dois longos sobre os olhos, um curto no nariz) e uma grande gola óssea (folho) na parte de trás do crânio. A função exata dos chifres e do folho ainda é debatida (defesa, exibição, combate intraespécie). Era contemporâneo e provável presa do T. Rex.">
+                    <div class="card-image-placeholder">
+                         <img src="/Images/Triceratops.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Triceratops</h3>
+                        <p class="card-description">Herbívoro gigante com três chifres e escudo ósseo protetor.</p>
+                    </div>
+                </div>
+
+                 <div class="discovery-card" 
+                     data-title="Megalodon (Otodus megalodon)"
+                     data-image=""
+                     data-meta="Oceanos Globais; Mioceno-Plioceno (c. 23-3.6 Ma)"
+                     data-description="Considerado um dos maiores e mais poderosos predadores que já viveram, o Megalodon era um tubarão colossal que podia atingir comprimentos estimados de 15 a 18 metros. Seus dentes fossilizados, triangulares e serrilhados, são frequentemente maiores que uma mão humana. Predava baleias e outros grandes animais marinhos. Sua extinção ainda é objeto de estudo.">
+                    <div class="card-image-placeholder">
+                         <img src="/Images/Megalodon.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Megalodon</h3>
+                        <p class="card-description">O gigantesco tubarão pré-histórico que dominou os oceanos.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Tiktaalik roseae"
+                     data-image=""
+                     data-meta="Ilha Ellesmere, Canadá; Devoniano Superior (c. 375 Ma)"
+                     data-description="Apelidado de 'peixe-pode' ('fishapod'), o Tiktaalik é um fóssil crucial que preenche a lacuna evolutiva entre os peixes com nadadeiras lobadas e os primeiros vertebrados terrestres (tetrápodes). Possuía guelras e escamas (peixe), mas também um pescoço móvel, pulmões primitivos, costelas fortes e nadadeiras com ossos correspondentes aos dos membros (ombro, cotovelo, pulso), adaptadas para se apoiar em águas rasas.">
+                     <div class="card-image-placeholder">
+                         <img src="/Images/Tiktaalik.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Tiktaalik</h3>
+                        <p class="card-description">O 'peixe com pernas' que ilustra a transição da água para a terra.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Argentinosaurus huinculensis"
+                     data-image=""
+                     data-meta="Patagônia, Argentina; Cretáceo Superior (c. 97-93 Ma)"
+                     data-description="Embora conhecido apenas por restos fragmentários (vértebras, costelas, tíbia, fêmur parcial), as dimensões desses ossos sugerem que o Argentinosaurus foi um dos maiores animais terrestres que já existiram, possivelmente ultrapassando 30 metros de comprimento e pesando mais de 70 toneladas. Era um saurópode titanossauro, um herbívoro gigante de pescoço longo.">
+                    <div class="card-image-placeholder">
+                         <img src="/Images/Argentinosaurus.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Argentinosaurus</h3>
+                        <p class="card-description">Um colosso herbívoro, possivelmente o maior dinossauro conhecido.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Smilodon (Tigre-dentes-de-sabre)"
+                     data-image=""
+                     data-meta="Américas; Pleistoceno (c. 2.5 Ma - 10.000 anos atrás)"
+                     data-description="Mais corretamente chamado de 'gato-dentes-de-sabre', o Smilodon é famoso por seus impressionantes caninos superiores, que podiam chegar a 28 cm. Apesar do nome popular, não era um tigre. Era um predador de emboscada robusto, com corpo musculoso, provavelmente especializado em abater grandes presas da megafauna, como bisões e camelos pré-históricos.">
+                    <div class="card-image-placeholder">
+                         <img src="/Images/Smilodon.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Smilodon</h3>
+                        <p class="card-description">O icônico predador da Era do Gelo com caninos assustadores.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Folhelho de Burgess (Burgess Shale)"
+                     data-image=""
+                     data-meta="Montanhas Rochosas Canadenses; Cambriano Médio (c. 508 Ma)"
+                     data-description="Um dos depósitos fósseis mais importantes do mundo (Lagerstätte). Sua lama fina preservou não apenas conchas e ossos, mas também as partes moles de uma incrível diversidade de vida marinha complexa logo após a Explosão Cambriana. Muitos dos organismos encontrados, como Opabinia (com 5 olhos) e Hallucigenia, possuem planos corporais bizarros, diferentes de tudo que vive hoje.">
+                    <div class="card-image-placeholder">
+                         <img src="/Images/Folhelho.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Folhelho de Burgess</h3>
+                        <p class="card-description">Janela para a estranha e maravilhosa vida marinha do Cambriano.</p>
+                    </div>
+                </div>
+
+            </div> </main>
+
+        <div id="discovery-modal" class="discovery-modal hidden"> 
+            <div class="modal-content">
+                <button id="close-modal-button" class="close-modal-button" aria-label="Fechar Modal">&times;</button>
+                <img id="modal-image" src="" alt="Imagem da Descoberta" class="modal-image hidden"> 
+                <h2 id="modal-title" class="modal-title">Título da Descoberta</h2>
+                <p id="modal-meta" class="modal-meta">Localização, Data</p>
+                <hr class="border-brand-brown-medium/20 my-3"> 
+                <p id="modal-full-description" class="modal-full-description"></p>
+            </div>
+        </div>
+
+
+        <footer class="w-full bg-brand-parchment-darker border-t border-brand-brown-medium/20 mt-16 py-8">
+             <div class="max-w-5xl mx-auto text-center text-brand-brown-medium text-sm px-4">
+                 © 2025 ArqNote - Todos os direitos reservados.
+             </div>
+        </footer>
+
+        <div id="toast-placeholder" class="hidden fixed bottom-6 right-6 z-50 w-full max-w-xs p-4 ..." role="alert"></div>
+
+    </div>
+    
+    <script src="../js/db.js"></script> 
+    <script src="../js/auth.js"></script> 
+    <script src="../js/components.js"></script> 
+    <script src="../js/public-layout.js"></script> 
+    <script src="../js/paleontologia.js"></script> 
+</body>
+</html>

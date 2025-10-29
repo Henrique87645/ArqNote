@@ -1,0 +1,203 @@
+/* css/perfil.css (COMPLETO E ATUALIZADO) */
+
+/* Cartão de Perfil Principal */
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem; /* p-6 */
+    background-color: #f7f0df; /* brand-parchment-darker */
+    border-radius: 1rem; /* rounded-2xl */
+    border: 2px solid rgba(140, 109, 79, 0.2);
+    margin-bottom: 2rem; /* Aumentado espaço abaixo do card */
+}
+
+/* Container da Foto de Perfil */
+#profile-pic-container {
+    position: relative;
+    width: 8rem; /* 128px */
+    height: 8rem; /* 128px */
+    border-radius: 9999px; /* rounded-full */
+    border: 4px solid #fefbf4; /* border-brand-beige-light */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+#profile-pic-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.2s;
+}
+
+#profile-pic-container:hover #profile-pic-img {
+    filter: brightness(0.7);
+}
+
+#profile-pic-container .edit-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+#profile-pic-container:hover .edit-overlay {
+    opacity: 1;
+}
+
+/* Nome de Usuário */
+.profile-card h2 {
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: 700;
+    color: #6b4a2f; /* brand-brown-dark */
+    margin: 0 0 0.25rem 0; /* Margem apenas abaixo */
+}
+
+/* Email */
+.profile-card p {
+    font-size: 1rem; /* text-base */
+    color: #8c6d4f; /* brand-brown-medium */
+    margin: 0;
+}
+
+/* Seções de Formulário (Dados, Senha) */
+.profile-form-section {
+    width: 100%;
+    padding: 1.5rem;
+    background-color: #f7f0df; /* brand-parchment-darker */
+    border: 2px solid rgba(140, 109, 79, 0.2);
+    border-radius: 1rem; /* rounded-2xl */
+    /* margin-bottom controlado pelo <hr> */
+}
+
+/* Aplica o estilo global .section-title aos títulos */
+.profile-form-section h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #6b4a2f;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid rgba(140, 109, 79, 0.3);
+    text-align: left;
+}
+
+/* Ajustes nos inputs dentro das seções (usa a classe .input-group do style.css) */
+.profile-form-section .input-group {
+     margin-bottom: 1.25rem; /* Espaço entre os inputs */
+}
+/* Garante que o último input não tenha margem extra antes do botão */
+.profile-form-section .input-group:last-of-type {
+     margin-bottom: 1.5rem;
+}
+
+
+/* Botão de Salvar */
+.save-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #6b4a2f;
+    color: white;
+    font-weight: 700;
+    border-radius: 0.75rem; /* rounded-xl */
+    transition: background-color 0.2s;
+    /* margin-top: 1.5rem; */ /* Removido, espaço controlado pelo último input-group */
+    cursor: pointer;
+}
+.save-btn:hover {
+    background-color: #523924; /* Tom mais escuro */
+}
+
+
+/* --- ESTILOS DO VOCABULÁRIO --- */
+
+.vocab-section {
+    width: 100%;
+    padding: 1.5rem;
+    background-color: #f7f0df;
+    border: 2px solid rgba(140, 109, 79, 0.2);
+    border-radius: 1rem;
+     /* margin-bottom controlado pelo <hr> */
+}
+
+/* Aplica o estilo global .section-title aos títulos */
+.vocab-section h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #6b4a2f;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid rgba(140, 109, 79, 0.3);
+    text-align: left;
+}
+
+/* Grupo de adicionar termo */
+.add-term-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.add-term-group input {
+    flex: 1;
+}
+
+.add-term-group button {
+    padding: 0.75rem;
+    background-color: #6b4a2f;
+    color: white;
+    border-radius: 0.75rem;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.add-term-group button:hover {
+    background-color: #523924;
+}
+
+/* Lista de termos */
+.vocab-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.vocab-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background-color: #fefbf4;
+    border-radius: 0.5rem;
+}
+
+/* Botão de remover termo */
+.remove-term-btn {
+    color: rgba(185, 28, 28, 0.7);
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+    line-height: 1; /* Garante alinhamento do ícone */
+}
+.remove-term-btn svg { /* Garante que o SVG não seja maior que o botão */
+    display: block;
+}
+.remove-term-btn:hover {
+    color: rgb(185, 28, 28);
+}

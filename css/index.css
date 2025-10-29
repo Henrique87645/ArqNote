@@ -1,0 +1,178 @@
+/* css/home.css (COMPLETO E CORRIGIDO - Sem regras vazias) */
+
+/* --- CABEÇALHO PÚBLICO DA HOME --- */
+
+.home-header {
+    /* Estilos aplicados via Tailwind no HTML: */
+    /* sticky top-0 z-40 w-full bg-brand-parchment/80 backdrop-blur-sm shadow-sm */
+    border-bottom: 1px solid rgba(140, 109, 79, 0.15); /* Linha inferior sutil */
+}
+
+/* Links de Navegação (Desktop) */
+.nav-link {
+    color: #8c6d4f; /* brand-brown-medium */
+    font-weight: 600; /* semi-bold */
+    padding-bottom: 0.25rem; /* pb-1 */
+    border-bottom: 2px solid transparent; /* Borda invisível para manter espaço */
+    transition: all 0.2s ease-in-out;
+    text-decoration: none; /* Garante que não haja sublinhado */
+}
+.nav-link:hover {
+    color: #6b4a2f; /* brand-brown-dark */
+    border-bottom-color: #6b4a2f; /* Mostra borda no hover */
+}
+/* Estilo do link ativo (aplicado no HTML ou via JS se necessário) */
+.nav-link.active {
+    color: #6b4a2f; /* brand-brown-dark */
+    border-bottom-color: #6b4a2f;
+    font-weight: 700; /* Pode adicionar negrito */
+}
+
+/* Botões Login/Cadastro (Estilo Geral) */
+.btn {
+    display: inline-block; /* Para padding funcionar corretamente */
+    padding: 0.5rem 1rem; /* py-2 px-4 */
+    border-radius: 0.5rem; /* rounded-lg */
+    font-weight: 600; /* font-semibold */
+    transition: all 0.2s ease-in-out;
+    border: 2px solid transparent; /* Para manter o alinhamento e estrutura */
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none; /* Remove sublinhado de links estilizados como botões */
+}
+
+/* Botão Primário (Cadastre-se) */
+.btn-primary {
+    background-color: #6b4a2f; /* brand-brown-dark */
+    color: white;
+    border-color: #6b4a2f; /* Adiciona borda da mesma cor */
+}
+.btn-primary:hover {
+    background-color: #523924; /* Tom mais escuro */
+    border-color: #523924;
+}
+
+/* Botão Secundário (Login) */
+.btn-secondary {
+    background-color: transparent;
+    color: #6b4a2f; /* brand-brown-dark */
+    border-color: #8c6d4f; /* brand-brown-medium */
+}
+.btn-secondary:hover {
+    background-color: rgba(140, 109, 79, 0.1); /* brand-brown-medium/10 */
+    border-color: #6b4a2f; /* brand-brown-dark */
+    color: #523924; /* Escurece o texto também */
+}
+
+/* Ícones dentro do botão do menu mobile */
+#mobile-menu-button svg {
+    width: 1.5rem; /* w-6 */
+    height: 1.5rem; /* h-6 */
+}
+
+
+/* --- MENU MOBILE (Dropdown) --- */
+
+/* Links de Navegação (Mobile) */
+.nav-link-mobile {
+     display: block; /* Ocupa linha inteira */
+     padding: 0.75rem 1rem; /* py-3 px-4 - Mais espaço de toque */
+     color: #8c6d4f; /* brand-brown-medium */
+     font-weight: 600;
+     border-radius: 0.375rem; /* rounded-md */
+     text-decoration: none;
+}
+.nav-link-mobile:hover {
+     background-color: #f7f0df; /* brand-parchment-darker */
+     color: #6b4a2f; /* brand-brown-dark */
+}
+/* Estilo link ativo mobile */
+.nav-link-mobile.active-mobile {
+     background-color: #f7f0df;
+     color: #6b4a2f;
+     font-weight: 700;
+}
+
+/* Linha divisória no menu mobile */
+#mobile-menu hr {
+    border-color: rgba(140, 109, 79, 0.2); /* brand-brown-medium/20 */
+    margin-top: 0.5rem; /* my-2 */
+    margin-bottom: 0.5rem;
+}
+
+/* Botões Login/Cadastro no menu mobile */
+#mobile-menu .btn {
+    width: 100%; /* Ocupa largura total */
+    margin-top: 0.5rem; /* Espaço entre botões */
+}
+
+
+/* --- CONTEÚDO DA HOME --- */
+
+/* Ajustes gerais para o <main> */
+main {
+    padding-top: 2rem; /* Espaço abaixo do header */
+    padding-bottom: 3rem; /* Espaço antes do footer */
+}
+
+/* Títulos das seções na Home */
+main h1 { /* Título principal */
+    font-size: 2.25rem; /* text-3xl */
+    line-height: 2.5rem; /* leading-10 */
+}
+@media (min-width: 768px) {
+    main h1 {
+        font-size: 3rem; /* md:text-4xl */
+        line-height: 1;
+    }
+}
+main h2.section-title { /* Títulos "Pesquisas", "Quem Somos" */
+    text-align: center; /* Centraliza títulos de seção na home */
+    margin-bottom: 2rem; /* mb-8 */
+    border-bottom: 2px dotted rgba(140, 109, 79, 0.4); /* Usa o estilo mais forte do page-title */
+    padding-bottom: 0.5rem;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Parágrafos de texto */
+main p {
+    line-height: 1.75; /* leading-relaxed - Melhora a legibilidade */
+}
+
+/* Imagens */
+main img {
+    max-width: 100%; /* Garante responsividade */
+    height: auto; /* Mantém proporção */
+}
+
+
+/* Cards de Pesquisa (Exemplo) */
+.home-card {
+    background-color: #fefbf4; /* brand-beige-light */
+    padding: 1.5rem; /* p-6 */
+    border-radius: 0.75rem; /* rounded-xl */
+    border: 2px solid rgba(140, 109, 79, 0.25); /* brand-brown-medium/25 */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); /* Sombra sutil */
+    transition: all 0.2s ease-in-out;
+    height: 100%; /* Garante que cards na mesma linha tenham a mesma altura */
+}
+.home-card:hover {
+    border-color: rgba(140, 109, 79, 0.5); /* Borda mais forte no hover */
+    transform: translateY(-4px); /* Efeito de levantar */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.04); /* Sombra mais pronunciada */
+}
+.home-card h3 {
+    color: #6b4a2f; /* brand-brown-dark */
+    font-size: 1.25rem; /* text-xl */
+    font-weight: bold; /* font-bold */
+    margin-bottom: 0.5rem; /* mb-2 */
+}
+.home-card p {
+    font-size: 0.875rem; /* text-sm */
+    color: #8c6d4f; /* brand-brown-medium */
+}
+
+/* --- RODAPÉ --- */
+/* Estilos definidos via Tailwind no HTML */

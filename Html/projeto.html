@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArqNote - Detalhe do Projeto</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-brown-dark': '#6b4a2f', 'brand-brown-medium': '#8c6d4f',
+                        'brand-beige-light': '#fefbf4', 'brand-parchment': '#fdf6e7',
+                        'brand-parchment-darker': '#f7f0df',
+                    },
+                    fontFamily: { 'serif': ['Merriweather', 'serif'] },
+                    boxShadow: { 'inner-dark': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.15)' }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/projeto.css">
+</head>
+
+<body class="min-h-screen">
+    
+    <div class="watercolor-blotch bg-brand-parchment-darker w-96 h-96 top-10 left-10"></div>
+    <div class="watercolor-blotch bg-brand-parchment-darker w-72 h-72 bottom-20 right-5"></div>
+
+    <div class="relative z-10 w-full min-h-screen">
+
+        <div id="project-detail-screen" class="flex flex-col min-h-screen">
+            <header class="project-header">
+                 <div class="project-header-content">
+                     <button id="back-to-projects-button" class="project-header-btn flex-shrink-0">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                     </button>
+                     <h1 id="project-title" class="text-xl md:text-2xl font-bold text-brand-brown-medium truncate px-2 text-center flex-1">Carregando...</h1>
+                     <button class="open-menu-btn project-header-btn flex-shrink-0">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                     </button>
+                 </div>
+            </header>
+            
+            <nav class="tab-nav">
+                <button id="tab-log-button" class="tab-btn active">Registro</button>
+                <button id="tab-media-button" class="tab-btn">Mídia</button>
+            </nav>
+            
+            <div class="content-container"> <div id="tab-log-content"> 
+                    <div class="log-form-container"> 
+                        <h3 class="section-title">Novo Registro</h3> 
+                        <div class="input-group"> 
+                            <label>Data</label>
+                            <input type="date" id="log-date" class="p-3"> </div>
+                        <div class="input-group"> 
+                            <label>Artefato / Tipo</label>
+                            <select id="log-artifact" class="p-3"> <option value="">Selecione o tipo</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="input-group"> 
+                                <label>Prof. (cm)</label>
+                                <input type="number" id="log-depth" placeholder="ex: 20" class="p-3"> </div>
+                            <div class="input-group"> 
+                                <label>Camada</label>
+                                <select id="log-layer" class="p-3"> <option value="">Selecione a camada</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 input-group"> 
+                             <input type="text" id="log-lat" placeholder="Latitude" class="p-3"> <input type="text" id="log-lon" placeholder="Longitude" class="p-3"> </div>
+                        <button id="get-location-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <span id="get-location-text">Obter Localização Atual</span>
+                        </button>
+                        <div class="input-group"> 
+                            <label>Anotações</label>
+                            <textarea id="log-notes" rows="3" placeholder="Anotações de campo..." class="p-3"></textarea> </div>
+                        <button id="save-log-button">Salvar Registro</button>
+                    </div>
+                    
+                    <div class="log-list-container"> 
+                        <h3 class="section-title">Registros Salvos</h3> 
+                        <div id="log-list">
+                             </div>
+                        <p id="no-logs-message" class="hidden text-brand-brown-medium/80 text-center py-4 italic">Nenhum registro salvo para este projeto.</p>
+                    </div>
+                </div>
+                
+                <div id="tab-media-content" class="hidden"> 
+                    <input type="file" id="media-file-input" multiple accept="image/*,video/*" class="hidden"> 
+
+                    <div class="media-actions-grid"> 
+                        <button class="media-btn" data-type="camera"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            <span class="mt-2 font-bold">Capturar/Upload</span> 
+                        </button>
+                         <button class="media-btn" data-type="photo"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                            <span class="mt-2 font-bold">Galeria/Upload</span>
+                        </button>
+                    </div>
+
+                     <hr class="styled"> <div> <h3 class="section-title">Mídia Salva</h3> <div id="media-gallery">
+                             </div>
+                        <p id="no-media-message" class="hidden italic">Nenhuma mídia salva para este projeto.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="menu-placeholder" class="hidden fixed inset-0 z-50 flex"></div>
+        <div id="toast-placeholder" class="hidden fixed bottom-6 right-6 z-50 w-full max-w-xs p-4 text-brand-brown-dark bg-brand-beige-light border-2 border-brand-brown-dark rounded-xl shadow-lg transition-all duration-300 ease-out transform opacity-0 translate-y-4" role="alert"></div>
+        <footer class="w-full bg-brand-parchment-darker border-t border-brand-brown-medium/20 mt-16 py-8"> 
+             <div class="max-w-5xl mx-auto text-center text-brand-brown-medium text-sm px-4">
+                 © 2025 ArqNote - Todos os direitos reservados.
+             </div>
+        </footer>
+
+    </div>
+    
+    <script src="../js/db.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/components.js"></script>
+    <script src="../js/projeto.js"></script> 
+</body>
+</html>

@@ -1,0 +1,38 @@
+/* css/mapa.css */
+
+/* O container do mapa (#map-container) já é estilizado no style.css global */
+/* Mas podemos garantir uma altura mínima aqui também */
+#map-container {
+    min-height: 400px;
+    width: 100%;
+}
+
+/* Estiliza o filtro de projeto da página do mapa */
+.map-filter-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* Rótulo flutuante para o select (já estilizado no HTML, mas aqui é o lugar certo) */
+.map-filter-label {
+    position: absolute;
+    left: 1rem; /* left-4 */
+    top: -0.75rem; /* -top-3 */
+    background-color: #fdf6e7; /* bg-brand-parchment (cor do body) */
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    font-size: 0.875rem; /* text-sm */
+    color: #6b4a2f;
+}
+
+/* Garante que o popup do Leaflet use nossa fonte */
+.leaflet-popup-content-wrapper, .leaflet-popup-content {
+    font-family: 'Merriweather', serif !important;
+    color: #6b4a2f !important;
+}
+
+.leaflet-popup-content b {
+    color: #523924;
+}

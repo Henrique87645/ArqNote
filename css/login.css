@@ -1,0 +1,91 @@
+/* css/login.css (COMPLETO E ATUALIZADO) */
+
+/* Estiliza o contêiner principal */
+#login-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+/* Container do logo e título */
+.login-brand-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.login-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 8rem; /* 128px */
+    height: 8rem; /* 128px */
+    background-color: #6b4a2f; /* Cor de fundo caso a imagem falhe */
+    border-radius: 1.5rem; /* 24px */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden; /* Garante que a imagem fique contida */
+}
+
+/* --- ESTILO PARA A IMAGEM DA LOGO --- */
+.login-logo-img {
+    width: 100%; /* Imagem preenche o container */
+    height: 100%; /* Imagem preenche o container */
+    object-fit: cover; /* Garante que a imagem cubra o espaço */
+}
+
+/* Span "ArqNote" (agora fora do .login-logo no HTML) */
+.login-brand-container > span {
+    font-size: 1.25rem; /* 20px */
+    font-weight: 700;
+    color: #6b4a2f; /* Cor escura para contrastar com o fundo */
+    position: relative;
+    z-index: 10;
+    margin-top: -1.25rem; /* Puxa o texto para cima, sobrepondo a parte de baixo da logo */
+    background-color: #fdf6e7; /* Cor de fundo do body, para criar recorte */
+    padding: 0 0.5rem; /* Espaçamento lateral */
+    border-radius: 0.25rem; /* Borda suave */
+}
+
+
+.login-title {
+    font-size: 1.5rem; /* 24px */
+    color: #8c6d4f; /* brand-brown-medium */
+    margin-top: 0.75rem; /* Aumenta espaço após o span "ArqNote" */
+}
+
+/* Botão principal de login */
+#login-button {
+    background-color: #6b4a2f; /* brand-brown-dark */
+    color: white;
+    font-weight: 700;
+    padding: 0.75rem;
+    border-radius: 0.75rem; /* 12px */
+    transition: background-color 0.2s;
+    cursor: pointer;
+    min-height: 3rem; /* Consistência com inputs */
+}
+#login-button:hover {
+    background-color: #523924; /* Um tom mais escuro */
+}
+
+/* Botão secundário de cadastro */
+#go-to-register-button {
+    background-color: #f7f0df; /* brand-parchment-darker */
+    color: #6b4a2f; /* brand-brown-dark */
+    border: 2px solid #8c6d4f; /* brand-brown-medium */
+    font-weight: 700;
+    padding: 0.75rem;
+    border-radius: 0.75rem; /* 12px */
+    transition: all 0.2s;
+    cursor: pointer;
+    min-height: 3rem; /* Consistência com inputs */
+}
+#go-to-register-button:hover {
+    background-color: #fefbf4; /* brand-beige-light */
+    border-color: #6b4a2f;
+}

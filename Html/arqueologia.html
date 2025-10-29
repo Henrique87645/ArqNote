@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArqNote - Descobertas da Arqueologia</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-brown-dark': '#6b4a2f', 'brand-brown-medium': '#8c6d4f',
+                        'brand-beige-light': '#fefbf4', 'brand-parchment': '#fdf6e7',
+                        'brand-parchment-darker': '#f7f0df',
+                    },
+                    fontFamily: { 'serif': ['Merriweather', 'serif'] },
+                    boxShadow: { 'inner-dark': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.15)' }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="../css/style.css"> 
+    <link rel="stylesheet" href="../css/index.css">      
+    <link rel="stylesheet" href="../css/arqueologia.css"> 
+</head>
+
+<body class="min-h-screen" data-page="arqueologia"> <div class="watercolor-blotch bg-brand-parchment-darker w-96 h-96 top-10 left-10"></div>
+    <div class="watercolor-blotch bg-brand-parchment-darker w-72 h-72 bottom-20 right-5"></div>
+
+    <div class="relative z-10 w-full min-h-screen flex flex-col">
+
+        <div id="header-placeholder">
+            </div>
+
+        <main class="flex-1 w-full max-w-5xl mx-auto content-container"> 
+            
+            <h1 class="page-title mb-10">Grandes Descobertas da Arqueologia</h1>
+
+            <div id="discovery-grid" class="discovery-grid">
+                
+                <div class="discovery-card" 
+                     data-title="Pedra de Roseta"
+                     data-image=""  
+                     data-meta="Egito, 196 a.C. (criação); 1799 (descoberta moderna)"
+                     data-description="Este fragmento de estela de granodiorito foi a chave para a decifração dos hieróglifos egípcios. Contém um decreto emitido em Mênfis em nome do Faraó Ptolomeu V, escrito em três grafias: hieroglífica (sagrada), demótica (popular) e grega antiga (administrativa). Sua descoberta por soldados franceses e posterior estudo por Jean-François Champollion abriram as portas para a compreensão da civilização egípcia antiga.">
+                    <div class="card-image-placeholder"> 
+                        <img src="/Images/PedraRoseta.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Pedra de Roseta</h3>
+                        <p class="card-description">A chave que desvendou os segredos dos hieróglifos egípcios.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Tumba de Tutancâmon (KV62)"
+                     data-image=""
+                     data-meta="Vale dos Reis, Egito, c. 1323 a.C. (morte); 1922 (descoberta)"
+                     data-description="Descoberta por Howard Carter, esta é uma das poucas tumbas reais egípcias encontradas praticamente intactas. Apesar de Tutancâmon ter sido um faraó de menor importância histórica, seu túmulo continha mais de 5.000 artefatos, incluindo a icônica máscara mortuária de ouro, sarcófagos, joias, armas e mobiliário, oferecendo uma visão inestimável sobre a riqueza, arte e rituais funerários do Novo Império Egípcio.">
+                    <div class="card-image-placeholder">
+                         <img src="/Images/Tumba.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Tumba de Tutancâmon</h3>
+                        <p class="card-description">Tesouro real egípcio quase intacto, revelando a opulência faraônica.</p>
+                    </div>
+                </div>
+                
+                <div class="discovery-card" 
+                     data-title="Machu Picchu"
+                     data-image=""
+                     data-meta="Andes Peruanos, c. 1450 d.C.; 1911 (redescoberta científica)"
+                     data-description="Esta cidadela Inca, situada no alto de uma montanha, permaneceu escondida do mundo ocidental até sua redescoberta por Hiram Bingham. Sua arquitetura de pedra polida, terraços agrícolas e localização espetacular a tornam um testemunho da engenharia e organização Inca. Acredita-se ter sido uma propriedade real ou um centro religioso, abandonada possivelmente devido à conquista espanhola ou a epidemias.">
+                     <div class="card-image-placeholder">
+                         <img src="/Images/MachuPicchu.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Machu Picchu</h3>
+                        <p class="card-description">A 'cidade perdida' dos Incas, maravilha arquitetônica nos Andes.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Manuscritos do Mar Morto"
+                     data-image=""
+                     data-meta="Cavernas de Qumran, c. Séc. III a.C. - I d.C.; 1946-1956 (descoberta)"
+                     data-description="Uma coleção de cerca de 981 textos judaicos antigos descobertos em 11 cavernas perto do Mar Morto. Incluem as cópias mais antigas conhecidas de quase todos os livros da Bíblia Hebraica (Antigo Testamento), além de textos sectários (possivelmente dos Essênios), apócrifos e pseudoepígrafos. Revolucionaram o estudo do judaísmo do Segundo Templo e as origens do cristianismo.">
+                     <div class="card-image-placeholder">
+                         <img src="/Images/Manuscrito.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Manuscritos do Mar Morto</h3>
+                        <p class="card-description">Antigos textos bíblicos e sectários encontrados em cavernas.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Pompeia e Herculano"
+                     data-image=""
+                     data-meta="Baía de Nápoles, Itália; 79 d.C. (soterramento); Séc. XVIII+ (escavação)"
+                     data-description="Duas cidades romanas tragicamente preservadas pela erupção catastrófica do Monte Vesúvio. Cobertas por camadas de cinzas e lama vulcânica, elas oferecem um instantâneo incrivelmente detalhado da vida cotidiana no Império Romano – desde afrescos e mosaicos em casas e edifícios públicos até moldes de gesso das vítimas, capturadas em seus momentos finais.">
+                    <div class="card-image-placeholder">
+                         <img src="/Images/Pompeia.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Pompeia e Herculano</h3>
+                        <p class="card-description">Cidades romanas congeladas no tempo pela erupção do Vesúvio.</p>
+                    </div>
+                </div>
+
+                 <div class="discovery-card" 
+                     data-title="Exército de Terracota"
+                     data-image=""
+                     data-meta="Xi'an, China; c. 210 a.C.; 1974 (descoberta)"
+                     data-description="Milhares de soldados, cavalos e bigas de terracota em tamanho real, descobertos perto do mausoléu de Qin Shi Huang, o primeiro Imperador da China. Cada figura possui características faciais únicas. Acredita-se que foram criados para proteger o imperador em sua vida após a morte, demonstrando o poder e a organização do Império Qin.">
+                    <div class="card-image-placeholder">
+                         <img src="/Images/ExercitoTerracota.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Exército de Terracota</h3>
+                        <p class="card-description">Guardiões silenciosos de argila do primeiro Imperador da China.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Göbekli Tepe"
+                     data-image=""
+                     data-meta="Sudeste da Turquia; c. 9600–8200 a.C.; 1995+ (escavação)"
+                     data-description="Um complexo monumental pré-histórico, considerado o mais antigo templo conhecido do mundo. Construído por caçadores-coletores antes da invenção da agricultura ou da cerâmica, consiste em grandes pilares de calcário em forma de T, alguns pesando toneladas e decorados com relevos de animais selvagens. Desafia teorias anteriores sobre o desenvolvimento das sociedades complexas.">
+                     <div class="card-image-placeholder">
+                         <img src="/Images/GobekliTepe.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Göbekli Tepe</h3>
+                        <p class="card-description">O templo mais antigo do mundo, anterior à agricultura.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Homem de Gelo (Ötzi)"
+                     data-image=""
+                     data-meta="Alpes Ötztal (Itália/Áustria); c. 3300 a.C.; 1991 (descoberta)"
+                     data-description="Múmia natural de um homem da Idade do Cobre, incrivelmente bem preservada pelo gelo glacial por mais de 5.000 anos. Ötzi foi encontrado com suas roupas de pele, um machado de cobre, arco, flechas e outros equipamentos, fornecendo detalhes sem precedentes sobre a tecnologia, dieta, saúde e até mesmo as circunstâncias de sua morte (foi assassinado) na Europa pré-histórica.">
+                    <div class="card-image-placeholder">
+                         <img src="/Images/HomemGelo.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Homem de Gelo (Ötzi)</h3>
+                        <p class="card-description">Múmia de 5300 anos revela segredos da Idade do Cobre.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Caverna de Lascaux"
+                     data-image=""
+                     data-meta="Dordonha, França; c. 17.000 a.C.; 1940 (descoberta)"
+                     data-description="Um sistema de cavernas contendo algumas das mais famosas e espetaculares artes rupestres do Paleolítico Superior. Descoberta por adolescentes, suas paredes são adornadas com centenas de pinturas vibrantes de animais como cavalos, auroques, veados e bisões, além de figuras humanas e sinais abstratos, oferecendo uma janela para a mente e a cultura dos nossos ancestrais.">
+                    <div class="card-image-placeholder">
+                         <img src="/Images/CarnavalLascaux.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Caverna de Lascaux</h3>
+                        <p class="card-description">Capela Sistina da pré-história, com arte rupestre magnífica.</p>
+                    </div>
+                </div>
+
+                <div class="discovery-card" 
+                     data-title="Mecanismo de Anticítera"
+                     data-image=""
+                     data-meta="Mar Egeu (Grécia); c. 150-100 a.C.; 1901 (descoberta)"
+                     data-description="Recuperado de um naufrágio antigo, este artefato corroído revelou-se um dispositivo mecânico de incrível complexidade. Trata-se de um 'computador' analógico de engrenagens de bronze, usado para calcular ciclos astronômicos, prever eclipses e determinar as datas dos Jogos Olímpicos. Sua sofisticação tecnológica antecede qualquer outra conhecida por mais de um milênio.">
+                    <div class="card-image-placeholder">
+                         <img src="/Images/MecanismoAnticitera.png">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Mecanismo de Anticítera</h3>
+                        <p class="card-description">Um computador analógico da Grécia Antiga para cálculos celestes.</p>
+                    </div>
+                </div>
+
+            </div> </main>
+
+        <div id="discovery-modal" class="discovery-modal hidden"> 
+            <div class="modal-content">
+                <button id="close-modal-button" class="close-modal-button" aria-label="Fechar Modal">&times;</button>
+                <img id="modal-image" src="" alt="Imagem da Descoberta" class="modal-image hidden"> 
+                <h2 id="modal-title" class="modal-title">Título da Descoberta</h2>
+                <p id="modal-meta" class="modal-meta">Localização, Data</p>
+                <hr class="border-brand-brown-medium/20 my-3"> 
+                <p id="modal-full-description" class="modal-full-description"></p>
+            </div>
+        </div>
+
+        <footer class="w-full bg-brand-parchment-darker border-t border-brand-brown-medium/20 mt-16 py-8">
+             <div class="max-w-5xl mx-auto text-center text-brand-brown-medium text-sm px-4">
+                 © 2025 ArqNote - Todos os direitos reservados.
+             </div>
+        </footer>
+
+        <div id="toast-placeholder" class="hidden fixed bottom-6 right-6 z-50 w-full max-w-xs p-4 ..." role="alert"></div>
+
+    </div>
+    
+    <script src="../js/db.js"></script> 
+    <script src="../js/auth.js"></script> 
+    <script src="../js/components.js"></script> 
+    <script src="../js/public-layout.js"></script> 
+    <script src="../js/arqueologia.js"></script> </body>
+</html>

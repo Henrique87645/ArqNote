@@ -1,0 +1,181 @@
+/* css/arqueologia.css (COMPLETO E REFINADO) */
+
+/* --- GRID DE DESCOBERTAS --- */
+.discovery-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* 1 coluna (mobile) */
+    gap: 1.5rem; /* gap-6 - Espaço entre cards */
+}
+@media (min-width: 640px) { .discovery-grid { grid-template-columns: repeat(2, 1fr); } } /* 2 colunas (sm) */
+@media (min-width: 1024px) { .discovery-grid { grid-template-columns: repeat(3, 1fr); } } /* 3 colunas (lg) - Ajustado de md para lg */
+
+
+/* --- CARD DE DESCOBERTA --- */
+.discovery-card {
+    background-color: #fefbf4; /* brand-beige-light */
+    border-radius: 0.75rem; /* rounded-xl */
+    border: 2px solid rgba(140, 109, 79, 0.25); /* brand-brown-medium/25 */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    overflow: hidden; 
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: flex; 
+    flex-direction: column;
+    min-height: 250px; /* Altura mínima para consistência visual */
+}
+.discovery-card:hover {
+    border-color: rgba(140, 109, 79, 0.6); 
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(107, 74, 47, 0.1), 0 4px 6px -2px rgba(107, 74, 47, 0.08); 
+}
+
+/* --- Placeholder para Imagem do Card --- */
+.card-image-placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 9; 
+    background-color: #f7f0df; /* brand-parchment-darker */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(140, 109, 79, 0.15); 
+    flex-shrink: 0; /* Impede que encolha */
+}
+.placeholder-text {
+    color: #8c6d4f; /* brand-brown-medium */
+    font-size: 0.875rem; /* text-sm */
+    font-style: italic;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+
+.card-content {
+    padding: 1rem 1.25rem; /* p-4 md:p-5 - Mais padding lateral */
+    flex-grow: 1; /* Ocupa espaço restante */
+    display: flex; /* Para alinhar título e descrição */
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 700; /* font-bold */
+    color: #6b4a2f; /* brand-brown-dark */
+    margin-bottom: 0.5rem; /* mb-2 */
+    line-height: 1.3; /* Ajuste para títulos longos */
+}
+
+.card-description {
+    font-size: 0.875rem; /* text-sm */
+    color: #8c6d4f; /* brand-brown-medium */
+    line-height: 1.5; /* leading-snug */
+    /* Limita a descrição (opcional) */
+    /* display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    text-overflow: ellipsis; */
+    flex-grow: 1; /* Ocupa espaço restante no card-content */
+}
+
+
+/* --- MODAL DE DETALHES --- */
+.discovery-modal {
+    position: fixed;
+    inset: 0; 
+    background-color: rgba(40, 30, 20, 0.7); 
+    backdrop-filter: blur(5px); 
+    z-index: 50; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem; 
+    opacity: 0; /* Começa invisível para transição */
+    visibility: hidden; /* Começa escondido */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Transição suave */
+}
+/* Estilo quando o modal está visível (JS adiciona/remove .hidden) */
+.discovery-modal:not(.hidden) {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #fdf6e7; /* brand-parchment */
+    border-radius: 1rem; /* rounded-2xl */
+    padding: 1.5rem 2rem; /* Aumentado padding horizontal */
+    border: 3px solid #8c6d4f; /* Borda média */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-width: 650px; /* Aumentado um pouco */
+    width: 100%;
+    max-height: 90vh; 
+    overflow-y: auto; 
+    position: relative; 
+    transform: scale(0.95); /* Efeito de entrada (opcional) */
+    transition: transform 0.3s ease; /* Transição suave */
+}
+.discovery-modal:not(.hidden) .modal-content {
+    transform: scale(1); /* Anima para o tamanho normal */
+}
+/* Scrollbar estilizada */
+.modal-content::-webkit-scrollbar { width: 8px; }
+.modal-content::-webkit-scrollbar-track { background: #f7f0df; border-radius: 4px;}
+.modal-content::-webkit-scrollbar-thumb { background: #8c6d4f; border-radius: 4px;}
+.modal-content::-webkit-scrollbar-thumb:hover { background: #6b4a2f; }
+
+
+.close-modal-button {
+    position: absolute;
+    top: 0.75rem; 
+    right: 0.75rem;
+    background: none;
+    border: none;
+    font-size: 2rem; 
+    line-height: 1;
+    color: #8c6d4f; 
+    cursor: pointer;
+    padding: 0.25rem;
+    transition: color 0.2s ease;
+}
+.close-modal-button:hover {
+    color: #6b4a2f; 
+}
+
+/* Imagem do Modal */
+.modal-image {
+    width: 100%;
+    max-height: 350px; /* Aumentado um pouco */
+    object-fit: cover;
+    border-radius: 0.5rem; 
+    margin-bottom: 1.5rem; /* Aumentado espaço */
+    border: 1px solid rgba(140, 109, 79, 0.2);
+}
+.modal-image.hidden { 
+    display: none;
+}
+
+.modal-title {
+    font-size: 1.75rem; /* Aumentado */
+    font-weight: 700;
+    color: #6b4a2f;
+    margin-bottom: 0.5rem; 
+    line-height: 1.3;
+}
+
+.modal-meta {
+    font-size: 0.875rem; 
+    color: #8c6d4f;
+    margin-bottom: 1rem; 
+    font-style: italic;
+}
+
+.modal-content hr { /* Estilo para a linha dentro do modal */
+     border-color: rgba(140, 109, 79, 0.2); 
+     margin-top: 1rem; 
+     margin-bottom: 1rem;
+}
+
+.modal-full-description {
+    font-size: 1rem; 
+    color: #6b4a2f;
+    line-height: 1.75; 
+}
