@@ -1,6 +1,6 @@
-/* css/projeto.css (COMPLETO E ATUALIZADO) */
+/* css/projeto.css (COMPLETO E ATUALIZADO com Estilos PDF) */
 
-/* Cabeçalho da página de projeto */
+/* Cabeçalho */
 .project-header {
     position: sticky;
     top: 0;
@@ -21,14 +21,12 @@
     margin-right: auto;
 }
 
-/* Título do Projeto no Cabeçalho (Não usa .page-title para centralização diferente) */
 #project-title {
-     font-size: 1.5rem; /* text-2xl */
+    font-size: 1.5rem; /* text-2xl */
     font-weight: 700; /* font-bold */
     color: #8c6d4f; /* brand-brown-medium */
-    /* truncate e px-2 são feitos com Tailwind no HTML */
+    /* truncate px-2 text-center flex-1 são aplicados via Tailwind no HTML */
 }
-
 
 .project-header-btn {
     padding: 0.5rem;
@@ -40,7 +38,7 @@
     background-color: rgba(107, 74, 47, 0.1);
 }
 
-/* Navegação por Abas (Tabs) */
+/* Abas */
 .tab-nav {
     display: flex;
     width: 100%;
@@ -68,124 +66,109 @@
 .tab-btn:hover {
     color: #6b4a2f;
 }
-
-/* Estilo da aba ativa */
 .tab-btn.active {
     color: #6b4a2f; /* text-brand-brown-dark */
     border-color: #6b4a2f; /* border-brand-brown-dark */
     font-weight: bold;
 }
 
-/* Estilo dos títulos dentro das abas */
-#tab-log-content h3,
-#tab-media-content h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #6b4a2f;
-    margin-bottom: 1rem; /* mb-4 */
-    padding-bottom: 0.25rem;
-    border-bottom: 1px solid rgba(140, 109, 79, 0.3);
-    text-align: left;
+/* Títulos de Seção (herdados de style.css .section-title) */
+#tab-log-content h3.section-title,
+#tab-media-content h3.section-title {
+    /* Herda de .section-title em style.css */
 }
 
 /* Formulário de log */
-.log-form-container { /* Adicione esta classe ao div que envolve o formulário */
-     padding: 1.5rem; /* p-6 */
-    background-color: #f7f0df; /* brand-parchment-darker */
+.log-form-container { 
+     padding: 1.5rem; 
+    background-color: #f7f0df; 
     border: 2px solid rgba(140, 109, 79, 0.2);
-    border-radius: 1rem; /* rounded-2xl */
-    margin-bottom: 2rem; /* Espaço abaixo do formulário */
+    border-radius: 1rem; 
+    margin-bottom: 2rem; 
 }
-.log-form-container .input-group { /* Usa a classe .input-group do style.css */
-     margin-bottom: 1.25rem;
+/* Estilos de input/label/grupo são herdados de style.css */
+#save-log-button { 
+    width: 100%; 
+    padding: 0.75rem; 
+    font-size: 1.125rem; 
+    font-weight: 700; 
+    background-color: #6b4a2f; 
+    color: white; 
+    border-radius: 0.75rem; 
+    cursor: pointer; 
+    margin-top: 1rem; /* Espaço acima do botão */
 }
-.log-form-container .grid { /* Garante espaçamento nos grids internos */
-     gap: 1rem; /* gap-4 */
+#save-log-button:hover { 
+    background-color: #523924; 
 }
-.log-form-container button { /* Estilo base para botões no form */
-     margin-top: 0.5rem; /* Espaço acima dos botões */
+#get-location-button { 
+    width: 100%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 0.5rem; 
+    padding: 0.5rem; 
+    background-color: #fefbf4; 
+    border: 2px solid rgba(140, 109, 79, 0.5); 
+    border-radius: 0.75rem; 
+    color: #6b4a2f; 
+    cursor: pointer; 
+    margin-top: 1rem; /* Espaço acima do botão */
 }
-#save-log-button { /* Botão principal */
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1.125rem; /* text-lg */
-    font-weight: 700;
-    background-color: #6b4a2f; /* brand-brown-dark */
-    color: white;
-    border-radius: 0.75rem; /* rounded-xl */
-    cursor: pointer;
-}
-#save-log-button:hover {
-     background-color: #523924; /* Tom mais escuro */
-}
-#get-location-button { /* Botão secundário */
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem; /* space-x-2 */
-    padding: 0.5rem; /* p-2 */
-    background-color: #fefbf4; /* brand-beige-light */
-    border: 2px solid rgba(140, 109, 79, 0.5); /* border-brand-brown-medium/50 */
-    border-radius: 0.75rem; /* rounded-xl */
-    color: #6b4a2f;
-    cursor: pointer;
-}
-#get-location-button:hover {
-     border-color: #6b4a2f; /* brand-brown-dark */
-     background-color: #f7f0df;
+#get-location-button:hover { 
+    border-color: #6b4a2f; 
+    background-color: #f7f0df; 
 }
 
 
 /* Lista de logs */
-.log-list-container { /* Adicione esta classe ao div que envolve a lista */
-     margin-top: 2rem; /* Espaço acima da lista */
+.log-list-container { 
+     margin-top: 2rem; 
 }
 .log-list-container #log-list {
      display: flex;
      flex-direction: column;
      gap: 1rem; /* space-y-4 */
 }
-/* Card individual do log */
-.log-card { /* Adicione esta classe aos divs da lista */
-    padding: 0.75rem; /* p-3 */
-    background-color: #fefbf4; /* brand-beige-light */
-    border: 2px solid rgba(140, 109, 79, 0.3); /* border-brand-brown-medium/30 */
-    border-radius: 0.75rem; /* rounded-lg */
-    box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.1); /* shadow-inner-dark sutil */
+.log-card { 
+    padding: 1rem; /* Aumentado padding */
+    background-color: #fefbf4; 
+    border: 2px solid rgba(140, 109, 79, 0.3); 
+    border-radius: 0.75rem; 
+    box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.1); 
+    page-break-inside: avoid; /* Tenta não quebrar no meio da página ao imprimir */
+}
+.log-card p {
+    font-size: 0.875rem; /* text-sm */
+    color: #8c6d4f; /* brand-brown-medium */
+    line-height: 1.5;
 }
 .log-card p:first-child { /* Título do log (Artefato e Data) */
     font-weight: 700;
     color: #6b4a2f; /* brand-brown-dark */
     margin-bottom: 0.25rem;
+    font-size: 1rem; /* Tamanho ligeiramente maior */
 }
-.log-card p { /* Outros parágrafos */
-    font-size: 0.875rem; /* text-sm */
-    color: #8c6d4f; /* brand-brown-medium */
-    line-height: 1.4;
-}
-.log-card p.log-notes { /* Parágrafo das notas */
+.log-card p.log-notes { 
      color: rgba(107, 74, 47, 0.9); /* brand-brown-medium/90 */
-     margin-top: 0.25rem;
+     margin-top: 0.5rem; /* Mais espaço */
+     font-style: italic;
 }
-.log-card p.log-gps { /* Parágrafo do GPS */
+.log-card p.log-gps { 
     font-size: 0.75rem; /* text-xs */
     color: rgba(140, 109, 79, 0.6); /* brand-brown-medium/60 */
-     margin-top: 0.25rem;
+     margin-top: 0.5rem;
 }
 
 
 /* --- ABA DE MÍDIA --- */
-
-/* Grid dos botões de ação */
 .media-actions-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 COLUNAS */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem; /* gap-4 */
-    margin-bottom: 1.5rem; /* Espaço abaixo dos botões */
+    margin-bottom: 1.5rem; 
 }
 
-/* Botões de mídia */
 .media-btn {
     display: flex;
     flex-direction: column;
@@ -201,22 +184,30 @@
     cursor: pointer;
     text-align: center;
 }
-.media-btn svg { /* Ícone dentro do botão */
+.media-btn svg { 
     width: 2.5rem; /* w-10 (40px) */
     height: 2.5rem; /* h-10 (40px) */
-    margin-bottom: 0.5rem; /* Espaço entre ícone e texto */
+    margin-bottom: 0.5rem; 
 }
-.media-btn span { /* Texto dentro do botão */
-    font-weight: 700; /* font-bold */
+.media-btn span { 
+    font-weight: 700; 
 }
 .media-btn:hover {
     border-color: #6b4a2f;
     background-color: #f7f0df;
 }
+.media-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #fefbf4;
+    border-color: rgba(140, 109, 79, 0.3);
+}
+.media-btn:disabled:hover {
+     border-color: rgba(140, 109, 79, 0.3);
+     background-color: #fefbf4;
+}
 
-
-/* Galeria de mídia */
-#media-gallery {
+#media-gallery { 
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.75rem;
@@ -227,7 +218,7 @@
     }
 }
 
-.media-card {
+.media-card { 
     position: relative;
     overflow: hidden;
     border-radius: 0.75rem;
@@ -236,7 +227,6 @@
     aspect-ratio: 1 / 1;
     background-color: #fefbf4;
 }
-
 .media-card img {
     display: block;
     width: 100%;
@@ -244,22 +234,94 @@
     object-fit: cover;
 }
 
-/* Mensagem de "Nenhuma mídia" */
-#no-media-message {
+#no-media-message { 
     text-align: center;
     padding: 2rem 0;
     color: rgba(140, 109, 79, 0.7);
     font-style: italic;
 }
 
-/* Botões desabilitados */
-.media-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background-color: #fefbf4;
-    border-color: rgba(140, 109, 79, 0.3);
+
+/* --- NOVOS ESTILOS PARA EXPORTAÇÃO DE PDF --- */
+
+/* Estilo para o botão "Exportar PDF" */
+.export-pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem; /* py-2 px-4 */
+    background-color: #f7f0df; /* brand-parchment-darker */
+    border: 2px solid #8c6d4f; /* brand-brown-medium */
+    border-radius: 0.75rem; /* rounded-xl */
+    color: #6b4a2f; /* brand-brown-dark */
+    font-weight: 600; /* font-semibold */
+    font-size: 0.875rem; /* text-sm */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
-.media-btn:disabled:hover {
-     border-color: rgba(140, 109, 79, 0.3);
-     background-color: #fefbf4;
+.export-pdf-btn:hover {
+    background-color: #fefbf4; /* brand-beige-light */
+    border-color: #6b4a2f;
+}
+.export-pdf-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f7f0df;
+}
+/* Estilo para o loader dentro do botão */
+.export-pdf-btn .loader {
+    width: 16px; /* Tamanho menor */
+    height: 16px;
+    border-width: 2px;
+    margin-right: 0.5rem; /* mr-2 */
+}
+
+/* Título que só aparece no PDF */
+.pdf-only-export {
+    display: none; /* Escondido por padrão */
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+#pdf-project-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000; /* Preto para impressão */
+    text-align: center;
+}
+#pdf-subtitle {
+    font-size: 16px;
+    color: #333;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* --- Classes de ajuda para o JS durante a exportação --- */
+
+/* Classe para esconder elementos (botões, formulários) do PDF */
+.pdf-hide-on-export {
+    display: none !important;
+}
+
+/* Classe para mostrar elementos (título) apenas no PDF */
+.pdf-show-on-export {
+     display: block !important;
+}
+
+/* Classe para limpar estilos visuais (sombras, etc.) do container */
+.pdf-prepare-export {
+     box-shadow: none !important;
+     border: none !important;
+     background: #ffffff !important; /* Fundo branco para o PDF */
+     padding: 0 !important; 
+     margin: 0 !important;
+}
+/* Limpa os cards de log para impressão */
+.pdf-prepare-export .log-card {
+     box-shadow: none !important;
+     border: 1px solid #ddd !important; /* Borda sutil no PDF */
+     background-color: #fdfdfd !important;
+     page-break-inside: avoid !important; /* Tenta não quebrar cards entre páginas */
+}
+/* Garante que o texto preto seja usado no PDF */
+.pdf-prepare-export * {
+    color: #000 !important;
 }

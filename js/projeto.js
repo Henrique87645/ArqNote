@@ -1,41 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Verifica se está logado
-    checkAuth('app');
+    checkAuth('app'); 
 
-    // 2. Renderiza conteúdo inicial
+    // 2. Renderiza o conteúdo inicial
     if (currentProject) { 
         renderProjectDetail(); 
         renderLogList();       
         renderMediaList();     
     } else {
         showToast("Nenhum projeto selecionado. Redirecionando..."); 
-        // CORRIGIDO: Volta para a nova página de projetos se não houver currentProject
         setTimeout(() => { window.location.href = 'projetosCriados.html'; }, 1000); 
         return; 
     }
 
     // 3. Adiciona listeners
-    
-    // Botão para voltar (CORRIGIDO)
     document.getElementById('back-to-projects-button')?.addEventListener('click', () => {
-        window.location.href = 'projetosCriados.html'; // CORRIGIDO: Volta para a nova página de projetos
+        window.location.href = 'projetosCriados.html'; 
     });
-
-    // Abas
     document.getElementById('tab-log-button')?.addEventListener('click', () => openTab('log'));
     document.getElementById('tab-media-button')?.addEventListener('click', () => openTab('media'));
-    
-    // Formulário de Log
     document.getElementById('save-log-button')?.addEventListener('click', handleSaveLog);
     document.getElementById('get-location-button')?.addEventListener('click', handleGetLocation);
     
-    // Mídia
+    // Listeners da Mídia
     document.querySelectorAll('.media-actions-grid .media-btn').forEach(button => {
         button.addEventListener('click', () => {
             document.getElementById('media-file-input')?.click(); 
         });
     });
     document.getElementById('media-file-input')?.addEventListener('change', handleMediaFilesSelected);
+    
+    // Listener do Botão PDF
+    document.getElementById('export-pdf-button')?.addEventListener('click', handleExportPDF);
     
     // Inicialização da Data
     const logDateInput = document.getElementById('log-date');
@@ -204,81 +200,66 @@ function renderLogList() {
         logs.forEach(log => {
             const formattedDate = log.date ? new Date(log.date).toLocaleDateString() : 'Data inválida';
             listElement.innerHTML += `
-                <div class="p-3 bg-brand-beige-light border-2 border-brand-brown-medium/30 rounded-lg shadow-inner-dark">
+                <div class="log-card p-3 bg-brand-beige-light border-2 border-brand-brown-medium/30 rounded-lg shadow-inner-dark">
                     <p class="font-bold text-brand-brown-dark">${log.artifact || 'Sem tipo'} (${formattedDate})</p>
                     <p class="text-brand-brown-medium text-sm">
                         Prof: ${log.depth ? log.depth + 'cm' : 'N/A'} / Camada: ${log.layer || 'N/A'}
                     </p>
-                    ${log.notes ? `<p class="text-brand-brown-medium/90 text-sm mt-1">${log.notes}</p>` : ''}
-                    ${(log.lat && log.lon) ? `<p class="text-xs text-brand-brown-medium/60 mt-1">GPS: ${log.lat}, ${log.lon}</p>` : ''}
+                    ${log.notes ? `<p class="log-notes text-brand-brown-medium/90 text-sm mt-1">${log.notes}</p>` : ''}
+                    ${(log.lat && log.lon) ? `<p class="log-gps text-xs text-brand-brown-medium/60 mt-1">GPS: ${log.lat}, ${log.lon}</p>` : ''}
                 </div>`;
         });
     }
 }
 
-// --- FUNÇÕES DA MÍDIA (ATUALIZADAS) ---
-
+// --- Funções da Mídia ---
 /**
- * Chamada quando ficheiros são selecionados no input#media-file-input.
- * Processa APENAS ficheiros de imagem, ignorando outros tipos.
- * @param {Event} event - O evento 'change' do input file.
+ * Lida com a seleção de ficheiros de imagem no input.
  */
 function handleMediaFilesSelected(event) {
     const input = event.target;
     if (!input.files || input.files.length === 0 || !currentProject) {
         return;
     }
-
     const files = Array.from(input.files); 
     const projectName = db.getProjectNameById(currentProject.id); 
     let imageFilesProcessedCount = 0;
     let imageFilesFound = 0;
 
-    // Filtra apenas os ficheiros de imagem para processar
     const imageFiles = files.filter(file => file.type.startsWith('image/'));
     imageFilesFound = imageFiles.length;
 
     if (imageFilesFound === 0) {
         showToast("Nenhuma imagem válida selecionada.");
-        input.value = ''; // Limpa o input
+        input.value = ''; 
         return;
     }
-
     showToast(`Processando ${imageFilesFound} imagem(ns)...`);
 
     imageFiles.forEach((file) => {
-        // Validação de tamanho (ex: 5MB)
         const maxSizeInBytes = 5 * 1024 * 1024; 
         if (file.size > maxSizeInBytes) {
             showToast(`Erro: ${file.name} excede o limite de ${maxSizeInBytes / 1024 / 1024}MB.`);
-            imageFilesProcessedCount++; // Conta como processado mesmo que falhe
+            imageFilesProcessedCount++; 
             if (imageFilesProcessedCount === imageFilesFound) {
-                renderMediaList(); // Atualiza a galeria no final
+                renderMediaList(); 
                 input.value = ''; 
             }
-            return; // Pula para o próximo ficheiro
+            return; 
         }
-
         const reader = new FileReader();
-
         reader.onload = function(e) {
             const imageDataUrl = e.target.result; 
             const caption = file.name;             
             const date = new Date().toISOString(); 
-
-            // Salva a foto no banco de dados
             db.addPhoto(currentProject.id, projectName, imageDataUrl, caption, date);
-            
             imageFilesProcessedCount++; 
-            
-            // QUANDO o último ficheiro de IMAGEM terminar, atualiza a galeria
             if (imageFilesProcessedCount === imageFilesFound) {
                 renderMediaList(); 
                 showToast(`${imageFilesFound} imagem(ns) salva(s)!`);
                 input.value = ''; 
             }
         }
-
         reader.onerror = function(e) {
             console.error(`Erro ao ler o ficheiro ${file.name}:`, e);
             showToast(`Erro ao carregar ${file.name}.`);
@@ -288,39 +269,30 @@ function handleMediaFilesSelected(event) {
                 input.value = ''; 
              }
         }
-
         reader.readAsDataURL(file); 
     });
-
-    // Se foram selecionados ficheiros que não eram imagens
     if (files.length > imageFilesFound) {
         showToast(`(${files.length - imageFilesFound}) ficheiro(s) ignorado(s) por não serem imagens.`);
     }
 }
-
 /**
- * Busca as fotos do projeto atual e as exibe na galeria da aba "Mídia".
+ * Renderiza a galeria de mídia salva para o projeto atual.
  */
 function renderMediaList() {
     if (!currentProject) return; 
-
     const photos = db.getPhotos(currentProject.id); 
     const galleryElement = document.getElementById('media-gallery');
     const emptyMessage = document.getElementById('no-media-message');
-
     if (!galleryElement || !emptyMessage) {
         console.error("Elementos da galeria de mídia ou mensagem de vazio não encontrados.");
         return;
     }
-
     galleryElement.innerHTML = ''; 
-
     if (!photos || photos.length === 0) {
         emptyMessage.classList.remove('hidden'); 
     } else {
         emptyMessage.classList.add('hidden'); 
         photos.sort((a, b) => new Date(b.date) - new Date(a.date)); 
-        
         photos.forEach(photo => {
             galleryElement.innerHTML += `
                 <div class="media-card">
@@ -328,5 +300,89 @@ function renderMediaList() {
                 </div>
             `;
         });
+    }
+}
+
+
+// --- FUNÇÃO PARA EXPORTAR PDF (LÓGICA CORRIGIDA) ---
+
+/**
+ * Usa jsPDF e html2canvas para exportar a área de registros como PDF.
+ */
+async function handleExportPDF() {
+    // 1. Verifica se as bibliotecas (jsPDF, html2canvas) estão carregadas
+    if (typeof window.jspdf === 'undefined' || typeof window.html2canvas === 'undefined') {
+        showToast("Erro: Bibliotecas de PDF não carregaram. Tente recarregar.");
+        console.error("jsPDF ou html2canvas não encontrados. Verifique os links no <head>.");
+        return;
+    }
+
+    const button = document.getElementById('export-pdf-button');
+    const originalButtonText = button.innerHTML;
+    button.innerHTML = '<span class="loader"></span> Exportando...'; // Mostra loader
+    button.disabled = true;
+    
+    // 2. Prepara os elementos para a captura
+    const exportArea = document.getElementById('pdf-export-area'); // O wrapper principal
+    // Seleciona os elementos que precisam ser escondidos/mostrados/limpos
+    const elementsToHide = exportArea.querySelectorAll('.log-form-container, #export-pdf-button, #get-location-button, #save-log-button');
+    const elementsToShow = exportArea.querySelectorAll('.pdf-only-export');
+    const elementsToClean = exportArea.querySelectorAll('.log-list-container, .log-card');
+
+    const projectTitle = document.getElementById('project-title')?.textContent || 'Projeto ArqNote';
+    
+    // Preenche o título do PDF (que está escondido no HTML)
+    document.getElementById('pdf-project-title').textContent = projectTitle;
+
+    // 3. Aplica classes CSS temporárias para "limpar" a captura
+    elementsToHide.forEach(el => el.classList.add('pdf-hide-on-export'));
+    elementsToShow.forEach(el => el.classList.add('pdf-show-on-export'));
+    elementsToClean.forEach(el => el.classList.add('pdf-prepare-export'));
+    exportArea.classList.add('pdf-prepare-export');
+
+
+    // 4. Captura o HTML e gera o PDF
+    try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        
+        // Espera o navegador aplicar as mudanças de classe (opcional, mas seguro)
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        await pdf.html(exportArea, {
+            callback: function(doc) {
+                // 5. Quando o PDF estiver pronto, salva o ficheiro
+                const filename = `ArqNote_Registros_${projectTitle.replace(/[^a-z0-9]/gi, '_')}.pdf`;
+                doc.save(filename);
+                
+                // 6. Limpa os estilos e reativa o botão
+                elementsToHide.forEach(el => el.classList.remove('pdf-hide-on-export'));
+                elementsToShow.forEach(el => el.classList.remove('pdf-show-on-export'));
+                elementsToClean.forEach(el => el.classList.remove('pdf-prepare-export'));
+                exportArea.classList.remove('pdf-prepare-export');
+                
+                button.innerHTML = originalButtonText;
+                button.disabled = false;
+                showToast("PDF exportado com sucesso!");
+            },
+            x: 15, // Margem esquerda (em mm)
+            y: 15, // Margem superior (em mm)
+            width: 180, // Largura do conteúdo (A4 = 210mm - 30mm de margens)
+            windowWidth: exportArea.scrollWidth, // Largura da captura
+            autoPaging: 'text', // Tenta quebrar páginas de forma inteligente
+            margin: [15, 15, 15, 15] // Ordem: Top, Right, Bottom, Left
+        });
+
+    } catch (error) {
+        console.error("Erro ao gerar PDF:", error);
+        showToast("Erro ao gerar o PDF.");
+        // 6. Limpa (mesmo em caso de erro)
+        elementsToHide.forEach(el => el.classList.remove('pdf-hide-on-export'));
+        elementsToShow.forEach(el => el.classList.remove('pdf-show-on-export'));
+        elementsToClean.forEach(el => el.classList.remove('pdf-prepare-export'));
+        exportArea.classList.remove('pdf-prepare-export');
+
+        button.innerHTML = originalButtonText;
+        button.disabled = false;
     }
 }
