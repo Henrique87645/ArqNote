@@ -72,12 +72,6 @@
     font-weight: bold;
 }
 
-/* Títulos de Seção (herdados de style.css .section-title) */
-#tab-log-content h3.section-title,
-#tab-media-content h3.section-title {
-    /* Herda de .section-title em style.css */
-}
-
 /* Formulário de log */
 .log-form-container { 
      padding: 1.5rem; 
