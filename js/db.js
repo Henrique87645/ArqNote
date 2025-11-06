@@ -13,6 +13,32 @@ class FakeDB {
         };
         if (!this.data.vocabulary.artifacts) this.data.vocabulary.artifacts = [];
         if (!this.data.vocabulary.layers) this.data.vocabulary.layers = [];
+
+        // --- INÍCIO DA MIGRAÇÃO AUTOMÁTICA DE PROJETOS ---
+        let migrationNeeded = false;
+        (this.data.projects || []).forEach(p => {
+            // 1. Migra 'name' para 'nomeDoSítio'
+            if (p.name && p.nomeDoSítio === undefined) {
+                p.nomeDoSítio = p.name;
+                delete p.name;
+                migrationNeeded = true;
+            }
+            // 2. Adiciona novos campos se não existirem (para projetos antigos)
+            if (p.instituicao === undefined) p.instituicao = "";
+            if (p.departamento === undefined) p.departamento = "";
+            if (p.responsavel === undefined) p.responsavel = "";
+            if (p.outrasDesignacoes === undefined) p.outrasDesignacoes = "";
+            if (p.autorizacao === undefined) p.autorizacao = false; // Checkbox (boolean)
+            if (p.instituicaoResponsavel === undefined) p.instituicaoResponsavel = "";
+            if (p.anosIntervencao === undefined) p.anosIntervencao = "";
+            if (p.usoAtual === undefined) p.usoAtual = "";
+        });
+
+        if (migrationNeeded) {
+            console.log("DB: Migração de projetos (name -> nomeDoSítio) e adição de novos campos concluída.");
+            this._save(); // Salva os projetos migrados
+        }
+        // --- FIM DA MIGRAÇÃO ---
     }
 
     _save() {
@@ -23,7 +49,6 @@ class FakeDB {
         localStorage.setItem('db_photos', JSON.stringify(this.data.photos));
         localStorage.setItem('db_mapPoints', JSON.stringify(this.data.mapPoints));
     }
-
     // --- USER ---
     register(username, email, password) {
         if (this.data.users.some(u => u.email === email)) {
@@ -95,19 +120,34 @@ class FakeDB {
         return { success: true, user: { ...user } };
     }
 
-    // --- PROJECTS ---
+// --- PROJECTS ---
     getProjects(userId) {
-        if (!userId) return []; // Retorna array vazio se não houver ID
+        if (!userId) return [];
         return this.data.projects.filter(p => p.userId === userId);
     }
 
-    createProject(userId, name) {
-        if (!userId || !name) return null; // Validação básica
-        const newProject = { 
-            id: `p${Date.now()}`, 
-            userId, 
-            name, 
-            createdAt: new Date().toISOString() 
+    // MODIFICADO: createProject agora aceita 'nomeDoSítio' e inicializa os outros campos
+    createProject(userId, nomeDoSítio) {
+        if (!userId || !nomeDoSítio) return null;
+        const user = this.data.users.find(u => u.id === userId);
+        if (!user) return null;
+
+        const newProject = {
+            id: `p${Date.now()}`,
+            userId: userId, 
+            createdAt: new Date().toISOString(),
+            
+            // --- CAMPOS DA FICHA DO SÍTIO (INICIALIZADOS) ---
+            nomeDoSítio: nomeDoSítio,
+            instituicao: "",
+            departamento: "",
+            responsavel: "",
+            outrasDesignacoes: "",
+            autorizacao: false, // Default para o checkbox
+            instituicaoResponsavel: "",
+            anosIntervencao: "",
+            usoAtual: ""
+            // --- FIM DOS NOVOS CAMPOS ---
         };
         this.data.projects.push(newProject);
         this._save();
@@ -115,13 +155,14 @@ class FakeDB {
     }
 
     getProjectDetails(projectId) {
-        return this.data.projects.find(p => p.id === projectId);
+        return this.data.projects.find(p => p.id === projectId) || null;
     }
 
-    /** Retorna apenas o nome de um projeto pelo ID */
+    // MODIFICADO: getProjectNameById agora usa 'nomeDoSítio'
     getProjectNameById(projectId) {
         const project = this.data.projects.find(p => p.id === projectId);
-        return project ? project.name : 'Projeto Desconhecido';
+        // Fallback para 'name' caso a migração falhe, mas 'nomeDoSítio' é o principal
+        return project ? (project.nomeDoSítio || project.name || 'Projeto Desconhecido') : 'Projeto Desconhecido';
     }
 
     deleteProject(projectId) {
@@ -149,6 +190,47 @@ class FakeDB {
         console.log(`Projeto ${projectId} e dados associados removidos.`);
         return true; // Exclusão bem-sucedida
     }
+
+    // --- NOVA FUNÇÃO: updateProjectDetails ---
+    /**
+     * Atualiza os campos de metadados (Ficha do Sítio) de um projeto.
+     * @param {string} projectId O ID do projeto.
+     * @param {object} details Um objeto contendo os 10 campos (nomeDoSítio, instituicao, etc.)
+     * @returns {boolean} True se foi salvo com sucesso.
+     */
+    updateProjectDetails(projectId, details) {
+        const project = this.data.projects.find(p => p.id === projectId);
+        if (!project) {
+            console.error(`Projeto ${projectId} não encontrado para atualizar.`);
+            return false;
+        }
+        
+        // Atualiza todos os 10 campos
+        project.nomeDoSítio = details.nomeDoSítio || project.nomeDoSítio; // Garante que não salve undefined
+        project.instituicao = details.instituicao || "";
+        project.departamento = details.departamento || "";
+        project.responsavel = details.responsavel || "";
+        project.outrasDesignacoes = details.outrasDesignacoes || "";
+        project.autorizacao = details.autorizacao || false; // boolean
+        project.instituicaoResponsavel = details.instituicaoResponsavel || "";
+        project.anosIntervencao = details.anosIntervencao || "";
+        project.usoAtual = details.usoAtual || "";
+        
+        this._save();
+        
+        // Atualiza o currentProject no localStorage se for o mesmo projeto
+        const currentProjectLS = JSON.parse(localStorage.getItem('currentProject'));
+        if (currentProjectLS && currentProjectLS.id === projectId) {
+             localStorage.setItem('currentProject', JSON.stringify(project));
+             // Atualiza a variável global (se usada, embora auth.js a defina)
+             if (typeof currentProject !== 'undefined') {
+                 currentProject = project;
+             }
+        }
+        
+        return true;
+    }
+    // --- FIM DA NOVA FUNÇÃO ---
 
     // --- LOGS ---
     saveLog(projectId, logData) {
@@ -260,31 +342,20 @@ class FakeDB {
         return this.data.mapPoints.filter(p => userProjectIds.includes(p.projectId));
     }
     
-    // --- DEFAULT DATA (Example) ---
+   // --- DEFAULT DATA ---
     initDefaultData() {
-        // Garante que a estrutura do vocabulário existe
-         if (!this.data.vocabulary) {
-             this.data.vocabulary = { artifacts: [], layers: [] };
-         } else {
-            if (!this.data.vocabulary.artifacts) this.data.vocabulary.artifacts = [];
-            if (!this.data.vocabulary.layers) this.data.vocabulary.layers = [];
-         }
-
         if (this.data.users.length === 0) {
-            this.register("teste", "teste@teste.com", "123");
+            console.log("DB: Inicializando dados padrão (usuário teste@teste.com)...");
+            this.register("Usuário Teste", "teste@teste.com", "123");
         }
         if (this.data.vocabulary.artifacts.length === 0) {
-            this.addVocabularyTerm("Cerâmica Tupiguarani", "artifacts");
-            this.addVocabularyTerm("Lítico Lascado", "artifacts");
-            this.addVocabularyTerm("Material Ósseo", "artifacts");
-            this.addVocabularyTerm("Carvão", "artifacts");
+            this.addVocabularyTerm("Cerâmica", "artifacts");
+            this.addVocabularyTerm("Lítico", "artifacts");
         }
-         if (this.data.vocabulary.layers.length === 0) {
-            this.addVocabularyTerm("Camada Superficial", "layers");
-            this.addVocabularyTerm("Camada Arqueológica 1", "layers");
-            this.addVocabularyTerm("Camada Estéril", "layers");
+        if (this.data.vocabulary.layers.length === 0) {
+            this.addVocabularyTerm("Camada 1 - Superficial", "layers");
+            this.addVocabularyTerm("Camada 2 - Escura", "layers");
         }
-        this._save(); // Salva os dados padrão se foram adicionados
     }
 }
 

@@ -1,4 +1,4 @@
-/* css/style.css (COMPLETO E CORRIGIDO PARA ESPAÇAMENTO - V3) */
+/* css/style.css (COMPLETO E ESTÁVEL) */
 
 /* Estilos base */
 body {
@@ -19,14 +19,16 @@ body {
     z-index: -1;
 }
 
-/* Container do mapa Leaflet */
+/* Container do mapa Leaflet (com correção z-index) */
 #map-container {
-    height: 60vh;
-    min-height: 400px;
-    border-radius: 1rem;
-    border: 2px solid rgba(140, 109, 79, 0.5);
-    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-    background-color: #f7f0df;
+    height: 60vh; 
+    min-height: 400px; 
+    border-radius: 1rem; 
+    border: 2px solid rgba(140, 109, 79, 0.5); 
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.15); 
+    background-color: #f7f0df; 
+    position: relative; 
+    z-index: 1;       
 }
 
 /* Pop-up do Leaflet */
@@ -34,9 +36,7 @@ body {
     font-family: 'Merriweather', serif !important;
     color: #6b4a2f !important;
 }
-.leaflet-popup-content b {
-    color: #523924;
-}
+.leaflet-popup-content b { color: #523924; }
 
 /* Dropdown (select) */
 select {
@@ -44,7 +44,7 @@ select {
     background-position: right 0.75rem center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
-    padding-right: 2.5rem !important; /* Garante espaço para a seta */
+    padding-right: 2.5rem !important; 
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -61,9 +61,7 @@ select {
 }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* --- HIERARQUIA VISUAL E ESPAÇAMENTO --- */
-
-/* Títulos Principais das Páginas (h1 no header) */
+/* Títulos */
 .page-title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -73,13 +71,11 @@ select {
     border-bottom: 2px dotted rgba(140, 109, 79, 0.4);
     text-align: center;
 }
-
-/* Títulos de Seção (h3 dentro do conteúdo) */
 .section-title {
     font-size: 1.25rem;
     font-weight: 700;
     color: #6b4a2f;
-    margin-bottom: 1.5rem; /* Espaço abaixo do título */
+    margin-bottom: 1.5rem; 
     padding-bottom: 0.25rem;
     border-bottom: 1px solid rgba(140, 109, 79, 0.3);
     text-align: left;
@@ -90,22 +86,22 @@ hr.styled {
     border: none;
     height: 1px;
     background-color: rgba(140, 109, 79, 0.25);
-    margin-top: 2.5rem; /* Espaço vertical */
+    margin-top: 2.5rem; 
     margin-bottom: 2.5rem;
 }
 
-/* Container principal de conteúdo (MAIS PADDING) */
+/* Container principal de conteúdo */
 .content-container {
-    padding: 1.5rem; /* Padding base (ex: p-6) */
+    padding: 1rem; 
     flex: 1;
-    max-width: 48rem; /* max-w-3xl */
+    max-width: 48rem; 
     margin-left: auto;
     margin-right: auto;
     width: 100%;
 }
 @media (min-width: 768px) {
     .content-container {
-        padding: 2rem; /* Padding maior (ex: md:p-8) */
+        padding: 1.5rem; 
     }
 }
 
@@ -114,7 +110,9 @@ button, a, input, select, textarea, .project-card, .media-btn {
     transition: all 0.2s ease-in-out;
 }
 
-/* Estilo base para inputs/selects/textarea (ALTURA CONSISTENTE, SEM PADDING GLOBAL) */
+
+/* --- REGRAS DE FORMULÁRIO GLOBAIS (NECESSÁRIAS) --- */
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -123,59 +121,52 @@ input[type="number"],
 select,
 textarea {
     width: 100%;
-    /* padding REMOVIDO - Usar classes p-X no HTML */
-    min-height: 3rem; /* Garante altura mínima (48px), ajusta com padding */
+    min-height: 3rem; /* 48px */
     background-color: #fefbf4;
     border: 2px solid rgba(140, 109, 79, 0.5);
-    border-radius: 0.75rem; /* rounded-xl */
+    border-radius: 0.75rem; 
     box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.08);
     color: #6b4a2f;
-    line-height: 1.5;
-    /* Adiciona padding padrão aqui que pode ser sobrescrito pelo Tailwind */
-    padding: 0.75rem 1rem; /* Equivalente a p-3 */
+    line-height: 1.5; 
+    padding: 0.75rem 1rem; /* Padding padrão */
 }
-input::placeholder, textarea::placeholder {
+input::placeholder, 
+textarea::placeholder {
     color: rgba(140, 109, 79, 0.6);
 }
-input:focus, select:focus, textarea:focus {
+input:focus, 
+select:focus, 
+textarea:focus {
     border-color: #6b4a2f;
     outline: none;
     box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.08), 0 0 0 3px rgba(107, 74, 47, 0.15);
 }
-
-/* Garante padding para inputs com ícones (se você usa pl-12 no HTML) */
-input[class*="pl-12"] { /* Mais específico */
-    padding-left: 3rem !important; /* Garante espaço */
-}
-input[class*="pr-12"] { /* Mais específico */
-    padding-right: 3rem !important; /* Garante espaço */
+/* Garante padding para inputs com ícones (usado em login/cadastro) */
+input[class*="pl-12"] {
+    padding-left: 3rem !important; 
 }
 
-/* Grupo Input + Label Flutuante (MAIS ESPAÇO) */
+/* Grupo Input + Label Flutuante */
 .input-group {
     position: relative;
     padding-top: 0.75rem; /* Espaço ACIMA do input para a label */
     margin-bottom: 1.5rem; /* Espaço ABAIXO do grupo */
 }
-/* Último grupo antes de um botão pode ter menos margem */
-.input-group:has(+ button) {
-    margin-bottom: 1rem;
-}
-
 .input-group label {
     position: absolute;
     left: 1rem;
-    top: 0; /* Alinha com o padding-top */
-    background-color: #f7f0df; /* Cor do fundo da seção/card onde o form está */
-    padding: 0 0.25rem; /* Pequeno padding lateral */
+    top: 0; 
+    background-color: #f7f0df; /* brand-parchment-darker (cor dos cards) */
+    padding: 0 0.25rem; 
     font-size: 0.75rem; /* text-xs */
     color: #6b4a2f;
     font-weight: bold;
-    pointer-events: none; /* Não interfere com o clique no input */
-    line-height: 1; /* Garante que a altura da label não empurre o layout */
-    z-index: 1; /* Garante que a label fique sobre a borda do input */
+    pointer-events: none; 
+    line-height: 1; 
+    z-index: 1; 
 }
-/* Ajusta a cor de fundo da label se o input estiver direto no body (improvável aqui) */
-body > .input-group label {
-     background-color: #fdf6e7; /* Cor do body */
+/* Ajuste para labels em fundos diferentes */
+.content-container .input-group label {
+    background-color: #fdf6e7; /* brand-parchment (cor do content-container) */
 }
+/* --- FIM DAS REGRAS GLOBAIS --- */

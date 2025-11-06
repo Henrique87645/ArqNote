@@ -1,10 +1,12 @@
+// js/projeto.js (COMPLETO E CORRIGIDO - Funciona com .input-group)
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Verifica se está logado
     checkAuth('app'); 
 
     // 2. Renderiza o conteúdo inicial
     if (currentProject) { 
-        renderProjectDetail(); 
+        renderProjectDetail(); // Preenche a Ficha do Sítio
         renderLogList();       
         renderMediaList();     
     } else {
@@ -19,20 +21,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.getElementById('tab-log-button')?.addEventListener('click', () => openTab('log'));
     document.getElementById('tab-media-button')?.addEventListener('click', () => openTab('media'));
+    
+    // --- Listeners da Aba Registro ---
+    document.getElementById('save-details-button')?.addEventListener('click', handleSaveDetails); 
     document.getElementById('save-log-button')?.addEventListener('click', handleSaveLog);
     document.getElementById('get-location-button')?.addEventListener('click', handleGetLocation);
+    document.getElementById('export-pdf-button')?.addEventListener('click', handleExportPDF);
     
-    // Listeners da Mídia
+    // Listeners da Aba Mídia
     document.querySelectorAll('.media-actions-grid .media-btn').forEach(button => {
         button.addEventListener('click', () => {
             document.getElementById('media-file-input')?.click(); 
         });
     });
     document.getElementById('media-file-input')?.addEventListener('change', handleMediaFilesSelected);
-    
-    // Listener do Botão PDF
-    document.getElementById('export-pdf-button')?.addEventListener('click', handleExportPDF);
-    
+    document.getElementById('media-gallery')?.addEventListener('click', (event) => {
+        const deleteButton = event.target.closest('.delete-photo-btn');
+        if (deleteButton) {
+            event.stopPropagation(); 
+            const photoId = deleteButton.dataset.id;
+            if (photoId) handleDeletePhoto(photoId);
+        }
+    });
+
     // Inicialização da Data
     const logDateInput = document.getElementById('log-date');
     if (logDateInput) {
@@ -41,15 +52,66 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/**
- * Renderiza os detalhes básicos do projeto (título) e popula os dropdowns
- * de vocabulário no formulário de log.
- */
-function renderProjectDetail() {
-    const projectTitleElement = document.getElementById('project-title');
-    if (projectTitleElement && currentProject) {
-        projectTitleElement.textContent = currentProject.name || 'Detalhes do Projeto';
+
+// --- NOVA FUNÇÃO: handleSaveDetails ---
+function handleSaveDetails() {
+    if (!currentProject) {
+        showToast("Erro: Projeto não carregado.");
+        return;
     }
+    
+    // 1. Coleta os dados do formulário
+    const detailsData = {
+        nomeDoSítio: document.getElementById('details-nome-sitio')?.value || "",
+        instituicao: document.getElementById('details-instituicao')?.value || "",
+        departamento: document.getElementById('details-departamento')?.value || "",
+        responsavel: document.getElementById('details-responsavel')?.value || "",
+        outrasDesignacoes: document.getElementById('details-outras-designacoes')?.value || "",
+        autorizacao: document.getElementById('details-autorizacao')?.checked || false,
+        instituicaoResponsavel: document.getElementById('details-instituicao-responsavel')?.value || "",
+        anosIntervencao: document.getElementById('details-anos-intervencao')?.value || "",
+        usoAtual: document.getElementById('details-uso-atual')?.value || ""
+    };
+
+    // 2. Salva no DB
+    const success = db.updateProjectDetails(currentProject.id, detailsData);
+
+    if (success) {
+        // 3. Atualiza o estado global 'currentProject'
+        currentProject = db.getProjectDetails(currentProject.id); 
+        
+        // 4. Atualiza o título no cabeçalho
+        document.getElementById('project-title').textContent = detailsData.nomeDoSítio;
+        
+        showToast("Ficha do Sítio salva com sucesso!");
+    } else {
+        showToast("Erro ao salvar a Ficha do Sítio.");
+    }
+}
+
+
+// --- FUNÇÃO ATUALIZADA: renderProjectDetail ---
+function renderProjectDetail() {
+    if (!currentProject) return;
+
+    // 1. Atualiza o título no cabeçalho
+    const projectTitleElement = document.getElementById('project-title');
+    if (projectTitleElement) {
+        projectTitleElement.textContent = currentProject.nomeDoSítio || 'Detalhes do Projeto';
+    }
+
+    // 2. Popula o formulário "Ficha do Sítio"
+    document.getElementById('details-nome-sitio').value = currentProject.nomeDoSítio || "";
+    document.getElementById('details-instituicao').value = currentProject.instituicao || "";
+    document.getElementById('details-departamento').value = currentProject.departamento || "";
+    document.getElementById('details-responsavel').value = currentProject.responsavel || "";
+    document.getElementById('details-outras-designacoes').value = currentProject.outrasDesignacoes || "";
+    document.getElementById('details-autorizacao').checked = currentProject.autorizacao || false;
+    document.getElementById('details-instituicao-responsavel').value = currentProject.instituicaoResponsavel || "";
+    document.getElementById('details-anos-intervencao').value = currentProject.anosIntervencao || "";
+    document.getElementById('details-uso-atual').value = currentProject.usoAtual || "";
+
+    // 3. Popula os dropdowns de vocabulário
     const vocab = db.getVocabulary(); 
     const artifactSelect = document.getElementById('log-artifact');
     const layerSelect = document.getElementById('log-layer');
@@ -73,7 +135,6 @@ function renderProjectDetail() {
 
 /**
  * Controla a visibilidade das abas 'Registro' (log) e 'Mídia' (media).
- * @param {string} tabName - O nome da aba a ser aberta ('log' ou 'media').
  */
 function openTab(tabName) {
     const logContent = document.getElementById('tab-log-content');
@@ -213,9 +274,6 @@ function renderLogList() {
 }
 
 // --- Funções da Mídia ---
-/**
- * Lida com a seleção de ficheiros de imagem no input.
- */
 function handleMediaFilesSelected(event) {
     const input = event.target;
     if (!input.files || input.files.length === 0 || !currentProject) {
@@ -275,42 +333,61 @@ function handleMediaFilesSelected(event) {
         showToast(`(${files.length - imageFilesFound}) ficheiro(s) ignorado(s) por não serem imagens.`);
     }
 }
-/**
- * Renderiza a galeria de mídia salva para o projeto atual.
- */
+
 function renderMediaList() {
     if (!currentProject) return; 
+
     const photos = db.getPhotos(currentProject.id); 
     const galleryElement = document.getElementById('media-gallery');
     const emptyMessage = document.getElementById('no-media-message');
+
     if (!galleryElement || !emptyMessage) {
         console.error("Elementos da galeria de mídia ou mensagem de vazio não encontrados.");
         return;
     }
     galleryElement.innerHTML = ''; 
+
     if (!photos || photos.length === 0) {
         emptyMessage.classList.remove('hidden'); 
     } else {
         emptyMessage.classList.add('hidden'); 
         photos.sort((a, b) => new Date(b.date) - new Date(a.date)); 
+        
         photos.forEach(photo => {
             galleryElement.innerHTML += `
                 <div class="media-card">
                     <img src="${photo.url}" alt="${photo.caption || 'Mídia do projeto'}">
+                    
+                    <button class="delete-photo-btn" data-id="${photo.id}" title="Apagar foto">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                    </button>
                 </div>
             `;
         });
     }
 }
 
+function handleDeletePhoto(photoId) {
+    if (!photoId) return;
+    
+    if (confirm("Tem certeza que deseja apagar esta imagem?")) {
+        const success = db.deletePhoto(photoId); 
+        
+        if (success) {
+            showToast("Imagem apagada com sucesso.");
+            renderMediaList(); 
+        } else {
+            showToast("Erro ao apagar a imagem.");
+        }
+    }
+}
 
-// --- FUNÇÃO PARA EXPORTAR PDF (LÓGICA CORRIGIDA) ---
 
-/**
- * Usa jsPDF e html2canvas para exportar a área de registros como PDF.
- */
+// --- FUNÇÃO PARA EXPORTAR PDF ---
 async function handleExportPDF() {
-    // 1. Verifica se as bibliotecas (jsPDF, html2canvas) estão carregadas
     if (typeof window.jspdf === 'undefined' || typeof window.html2canvas === 'undefined') {
         showToast("Erro: Bibliotecas de PDF não carregaram. Tente recarregar.");
         console.error("jsPDF ou html2canvas não encontrados. Verifique os links no <head>.");
@@ -319,43 +396,33 @@ async function handleExportPDF() {
 
     const button = document.getElementById('export-pdf-button');
     const originalButtonText = button.innerHTML;
-    button.innerHTML = '<span class="loader"></span> Exportando...'; // Mostra loader
+    button.innerHTML = '<span class="loader"></span> Exportando...'; 
     button.disabled = true;
     
-    // 2. Prepara os elementos para a captura
-    const exportArea = document.getElementById('pdf-export-area'); // O wrapper principal
-    // Seleciona os elementos que precisam ser escondidos/mostrados/limpos
-    const elementsToHide = exportArea.querySelectorAll('.log-form-container, #export-pdf-button, #get-location-button, #save-log-button');
+    const exportArea = document.getElementById('pdf-export-area'); 
+    const elementsToHide = exportArea.querySelectorAll('.log-form-container, #export-pdf-button, #get-location-button, #save-log-button, .site-details-container #save-details-button'); // Esconde salvar ficha
     const elementsToShow = exportArea.querySelectorAll('.pdf-only-export');
-    const elementsToClean = exportArea.querySelectorAll('.log-list-container, .log-card');
+    const elementsToClean = exportArea.querySelectorAll('.log-list-container, .log-card, .site-details-container'); // Limpa ficha
 
     const projectTitle = document.getElementById('project-title')?.textContent || 'Projeto ArqNote';
-    
-    // Preenche o título do PDF (que está escondido no HTML)
     document.getElementById('pdf-project-title').textContent = projectTitle;
 
-    // 3. Aplica classes CSS temporárias para "limpar" a captura
     elementsToHide.forEach(el => el.classList.add('pdf-hide-on-export'));
     elementsToShow.forEach(el => el.classList.add('pdf-show-on-export'));
     elementsToClean.forEach(el => el.classList.add('pdf-prepare-export'));
     exportArea.classList.add('pdf-prepare-export');
 
-
-    // 4. Captura o HTML e gera o PDF
     try {
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF('p', 'mm', 'a4');
         
-        // Espera o navegador aplicar as mudanças de classe (opcional, mas seguro)
         await new Promise(resolve => setTimeout(resolve, 100));
 
         await pdf.html(exportArea, {
             callback: function(doc) {
-                // 5. Quando o PDF estiver pronto, salva o ficheiro
                 const filename = `ArqNote_Registros_${projectTitle.replace(/[^a-z0-9]/gi, '_')}.pdf`;
                 doc.save(filename);
                 
-                // 6. Limpa os estilos e reativa o botão
                 elementsToHide.forEach(el => el.classList.remove('pdf-hide-on-export'));
                 elementsToShow.forEach(el => el.classList.remove('pdf-show-on-export'));
                 elementsToClean.forEach(el => el.classList.remove('pdf-prepare-export'));
@@ -365,18 +432,17 @@ async function handleExportPDF() {
                 button.disabled = false;
                 showToast("PDF exportado com sucesso!");
             },
-            x: 15, // Margem esquerda (em mm)
-            y: 15, // Margem superior (em mm)
-            width: 180, // Largura do conteúdo (A4 = 210mm - 30mm de margens)
-            windowWidth: exportArea.scrollWidth, // Largura da captura
-            autoPaging: 'text', // Tenta quebrar páginas de forma inteligente
-            margin: [15, 15, 15, 15] // Ordem: Top, Right, Bottom, Left
+            x: 15, y: 15,
+            width: 180, 
+            windowWidth: exportArea.scrollWidth, 
+            autoPaging: 'text', 
+            margin: [15, 15, 15, 15] 
         });
 
     } catch (error) {
         console.error("Erro ao gerar PDF:", error);
         showToast("Erro ao gerar o PDF.");
-        // 6. Limpa (mesmo em caso de erro)
+        
         elementsToHide.forEach(el => el.classList.remove('pdf-hide-on-export'));
         elementsToShow.forEach(el => el.classList.remove('pdf-show-on-export'));
         elementsToClean.forEach(el => el.classList.remove('pdf-prepare-export'));

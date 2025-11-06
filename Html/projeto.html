@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <script src="../js/libs/html2canvas.min.js"></script>
-    <script src="../js/libs/jspdf.umd.min.js"></script>
+    <script src="../js/html2canvas.min.js" defer></script>
+    <script src="../js/jspdf.umd.min.js" defer></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,6 +60,7 @@
             </nav>
             
             <div class="content-container"> 
+                
                 <div id="tab-log-content"> 
                     <div id="pdf-export-area"> 
                         
@@ -66,16 +68,58 @@
                             <h1 id="pdf-project-title">Título do Projeto</h1>
                             <h2 id="pdf-subtitle">Relatório de Registros de Campo</h2>
                         </div>
-
-                        <div class="log-form-container"> 
+                        
+                        <div class="site-details-container">
+                            <h3 class="section-title">Ficha do Sítio</h3>
+                            <form id="site-details-form">
+                                <div class="input-group"><label for="details-nome-sitio">Nome do Sítio</label>
+                                    <input type="text" id="details-nome-sitio" class="p-3">
+                                </div>
+                                <div class="input-group"><label for="details-instituicao">Instituição</label>
+                                    <input type="text" id="details-instituicao" class="p-3">
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                                    <div class="input-group"><label for="details-departamento">Departamento/Projeto</label>
+                                        <input type="text" id="details-departamento" class="p-3">
+                                    </div>
+                                    <div class="input-group"><label for="details-responsavel">Responsável pelo preenchimento</label>
+                                        <input type="text" id="details-responsavel" class="p-3">
+                                    </div>
+                                </div>
+                                <div class="input-group"><label for="details-outras-designacoes">Outras designações/siglas</label>
+                                    <input type="text" id="details-outras-designacoes" class="p-3">
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 items-center">
+                                    <div class="input-group flex items-center justify-center pt-6"> 
+                                        <label class="toggle-switch-label">Autorização para pesquisa/escavação?</label>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="details-autorizacao">
+                                            <span class="toggle-switch-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="input-group"><label for="details-instituicao-responsavel">Instituição responsável</label>
+                                        <input type="text" id="details-instituicao-responsavel" class="p-3">
+                                    </div>
+                                </div>
+                                <div class="input-group"><label for="details-anos-intervencao">Ano(s) da(s) intervenção(ões)</label>
+                                    <input type="text" id="details-anos-intervencao" placeholder="ex: 2023, 2025" class="p-3">
+                                </div>
+                                <div class="input-group"><label for="details-uso-atual">Uso atual da área</label>
+                                    <textarea id="details-uso-atual" rows="3" class="p-3"></textarea>
+                                </div>
+                                <button type="button" id="save-details-button" class="save-btn">Salvar Ficha</button>
+                            </form>
+                        </div>
+                        
+                        <hr class="styled"> <div class="log-form-container"> 
                             <h3 class="section-title">Novo Registro</h3> 
                             <div class="input-group"><label>Data</label><input type="date" id="log-date" class="p-3"></div>
                             <div class="input-group"><label>Artefato / Tipo</label><select id="log-artifact" class="p-3"><option value="">Selecione o tipo</option></select></div>
-                            <div class="grid grid-cols-2 gap-4">
+                            <div class="grid grid-cols-2 gap-x-4">
                                 <div class="input-group"><label>Prof. (cm)</label><input type="number" id="log-depth" placeholder="ex: 20" class="p-3"></div>
                                 <div class="input-group"><label>Camada</label><select id="log-layer" class="p-3"><option value="">Selecione a camada</option></select></div>
                             </div>
-                            <div class="grid grid-cols-2 gap-4 input-group"><input type="text" id="log-lat" placeholder="Latitude" class="p-3"><input type="text" id="log-lon" placeholder="Longitude" class="p-3"></div>
+                            <div class="grid grid-cols-2 gap-x-4 input-group"><input type="text" id="log-lat" placeholder="Latitude" class="p-3"><input type="text" id="log-lon" placeholder="Longitude" class="p-3"></div>
                             <button id="get-location-button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                                 <span id="get-location-text">Obter Localização Atual</span>
@@ -100,6 +144,7 @@
                 
                 <div id="tab-media-content" class="hidden space-y-6"> 
                     <input type="file" id="media-file-input" multiple accept="image/*,video/*" class="hidden"> 
+                    
                     <div class="media-actions-grid"> 
                         <button class="media-btn" data-type="camera"> 
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
@@ -110,10 +155,12 @@
                             <span class="mt-2 font-bold">Galeria/Upload</span>
                         </button>
                     </div>
+
                     <hr class="styled"> 
+                    
                     <div> 
                         <h3 class="section-title">Mídia Salva</h3> 
-                        <div id="media-gallery">
+                        <div id="media-gallery" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                             </div>
                         <p id="no-media-message" class="hidden text-brand-brown-medium/80 text-center py-4 italic">Nenhuma mídia salva para este projeto.</p>
                     </div>
@@ -127,6 +174,5 @@
     <script src="../js/db.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/components.js"></script>
-    <script src="../js/projeto.js"></script>
-</body>
+    <script src="../js/projeto.js"></script> </body>
 </html>

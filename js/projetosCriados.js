@@ -1,4 +1,4 @@
-// js/projetosCriados.js (Antigo index.js - COMPLETO E ATUALIZADO com delete)
+// js/projetosCriados.js (COMPLETO E ATUALIZADO)
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Verifica se está logado
@@ -17,28 +17,28 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("Botão 'Novo projeto' não encontrado.");
     }
     
-    // Listener de clique ATUALIZADO na lista de projetos
+    // Listener de clique (delegação de evento)
     if (projectListDiv) {
         projectListDiv.addEventListener('click', (e) => {
             // Verifica se o clique foi no botão de excluir
             const deleteButton = e.target.closest('.delete-project-btn'); 
             if (deleteButton) {
-                e.stopPropagation(); // Impede que o clique "vaze" para o card e abra o projeto
+                e.stopPropagation(); 
                 const projectId = deleteButton.dataset.id;
                 if (projectId) {
-                    handleDeleteProject(projectId); // Chama a função de exclusão
+                    handleDeleteProject(projectId); 
                 } else {
                      console.error("ID do projeto não encontrado no botão de exclusão.");
                 }
-                return; // Sai da função após tratar a exclusão
+                return; 
             }
 
-            // Se não foi no botão de excluir, verifica se foi no card para abrir
+            // Se não foi no botão de excluir, abre o projeto
             const projectCard = e.target.closest('.project-card');
             if (projectCard) {
                 const projectId = projectCard.dataset.id; 
                 if (projectId) {
-                    openProject(projectId); // Abre o projeto
+                    openProject(projectId); 
                 } else {
                     console.error("ID do projeto não encontrado no card clicado.");
                 }
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Renderiza a lista de projetos, AGORA COM BOTÃO DE EXCLUIR.
+ * Renderiza a lista de projetos, agora com botão de excluir.
  */
 function renderProjectList() {
     if (!currentUser) {
@@ -81,16 +81,21 @@ function renderProjectList() {
 
         projects.forEach(project => {
             const creationDate = project.createdAt ? new Date(project.createdAt).toLocaleDateString() : 'Data desconhecida';
-            // Card HTML ATUALIZADO com botão de exclusão
+            
+            // MODIFICADO: Usa project.nomeDoSítio ou project.name (fallback)
+            const siteName = project.nomeDoSítio || project.name || 'Projeto sem nome'; 
+            
             const card = `
-                <div data-id="${project.id}" class="project-card relative group"> <div class="pr-10"> <h3>${project.name || 'Projeto sem nome'}</h3>
+                <div data-id="${project.id}" class="project-card relative group"> 
+                    <div class="pr-10"> 
+                       <h3>${siteName}</h3>
                        <p>Criado em: ${creationDate}</p>
                     </div>
 
                     <button 
                         data-id="${project.id}" 
                         class="delete-project-btn absolute top-2 right-2 p-1.5 text-red-700/50 hover:text-red-700 hover:bg-red-100/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                        aria-label="Remover projeto ${project.name || ''}"
+                        aria-label="Remover projeto ${siteName}"
                         title="Remover projeto"> 
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="3 6 5 6 21 6"></polyline>
@@ -108,7 +113,6 @@ function renderProjectList() {
 
 /**
  * Abre a página de detalhes de um projeto específico.
- * @param {string} projectId - O ID do projeto a ser aberto.
  */
 function openProject(projectId) {
     const project = db.getProjectDetails(projectId);
@@ -122,49 +126,48 @@ function openProject(projectId) {
 }
 
 /**
- * Lida com a criação de um novo projeto.
+ * MODIFICADO: Lida com a criação de um novo projeto (pede Nome do Sítio).
  */
 function handleNewProject() {
-    if (!currentUser) {
+     if (!currentUser) {
         showToast("Erro: Usuário não logado.");
         return;
     }
-    const projectName = prompt("Qual o nome do novo projeto?");
-    if (projectName && projectName.trim() !== "") {
-        const newProject = db.createProject(currentUser.id, projectName.trim());
+    // MODIFICADO: Pergunta o "Nome do Sítio"
+    const nomeDoSítio = prompt("Qual o Nome do Sítio?");
+    
+    if (nomeDoSítio && nomeDoSítio.trim() !== "") {
+        // MODIFICADO: Passa o nomeDoSítio para a função createProject
+        const newProject = db.createProject(currentUser.id, nomeDoSítio.trim());
         if (newProject) {
             renderProjectList(); 
             showToast("Projeto criado com sucesso!");
         } else {
              showToast("Erro ao criar o projeto.");
         }
-    } else if (projectName !== null) { 
-        showToast("O nome do projeto não pode estar vazio.");
+    } else if (nomeDoSítio !== null) { 
+        showToast("O Nome do Sítio não pode estar vazio.");
     }
 }
 
 /**
- * NOVA FUNÇÃO: Lida com a exclusão de um projeto.
- * Pede confirmação antes de chamar a função do DB.
- * @param {string} projectId - O ID do projeto a ser excluído.
+ * Lida com a exclusão de um projeto.
  */
 function handleDeleteProject(projectId) {
     const project = db.getProjectDetails(projectId);
-    const projectName = project ? project.name : 'este projeto';
+    const projectName = project ? (project.nomeDoSítio || project.name) : 'este projeto';
 
-    // Pede confirmação ao usuário
     if (confirm(`Tem certeza que deseja remover "${projectName}" e TODOS os seus dados associados (registros, fotos)?\n\nESTA AÇÃO NÃO PODE SER DESFEITA.`)) {
         
-        const success = db.deleteProject(projectId); // Chama a função de exclusão no DB
+        const success = db.deleteProject(projectId); 
 
         if (success) {
             showToast(`Projeto "${projectName}" removido com sucesso.`);
-            renderProjectList(); // Re-renderiza a lista de projetos atualizada
+            renderProjectList(); 
         } else {
             showToast(`Erro ao tentar remover o projeto.`);
         }
     } else {
-        // Usuário cancelou
         console.log("Exclusão cancelada pelo usuário.");
     }
 }
